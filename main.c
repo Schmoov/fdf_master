@@ -9,6 +9,14 @@
 
 #define COLOR_WHITE	0xffffff
 
+typedef struct s_hmap{
+	int		col;
+	int		row;
+	int		*height;
+}			t_hmap;
+
+t_hmap	parse_hmap(char *path);
+
 typedef struct s_mlx{
 	void	*ptr;
 	void	*win;
@@ -72,6 +80,62 @@ int	key_hook(int keycode, void *param)
 			t_v2 p = {o.e1 + 240*cos(theta*2*M_PI/360), o.e2 + 240*sin(theta*2*M_PI/360)};
 			draw_segment(o, p, mlx);
 		}
+	if (keycode == 'd')
+	{
+		t_hmap map = parse_hmap("maps/42.fdf");
+		for (int i = 0; i < map.row; i++)
+		{
+			for (int j = 0; j < map.col; j++)
+			{
+				t_v2 v1;
+				t_v2 v2;
+				if (j)
+				{
+					v1 = (t_v2){(j-1)*20+50, i*20+50};
+					v2 = (t_v2){j*20 + 50, i*20 + 50};
+					draw_segment(v1, v2, mlx);
+				}
+				if (i)
+				{
+					v1 = (t_v2){j*20+50, (i-1)*20+50};
+					v2 = (t_v2){j*20 + 50, i*20 + 50};
+					draw_segment(v1, v2, mlx);
+				}
+			}
+		}
+	}
+	if (keycode == 'r')
+	{
+		t_hmap map = parse_hmap("maps/42.fdf");
+		for (int i = 0; i < map.row; i++)
+		{
+			for (int j = 0; j < map.col; j++)
+			{
+				t_v2 v1;
+				t_v2 v2;
+				if (j)
+				{
+					v1 = (t_v2){(j-1)*20+50, i*20+50};
+					v2 = (t_v2){j*20 + 50, i*20 + 50};
+					v1.e1 = cos(M_PI/12)*v1.e1 - sin(M_PI/12)*v1.e2+50-5*map.height[i*map.col+j-1];
+					v1.e2 = sin(M_PI/12)*v1.e1 + cos(M_PI/12)*v1.e2-5*map.height[i*map.col+j-1];
+					v2.e1 = cos(M_PI/12)*v2.e1 - sin(M_PI/12)*v2.e2+50-5*map.height[i*map.col+j];
+					v2.e2 = sin(M_PI/12)*v2.e1 + cos(M_PI/12)*v2.e2-5*map.height[i*map.col+j];
+					draw_segment(v1, v2, mlx);
+				}
+				if (i)
+				{
+					v1 = (t_v2){j*20+50, (i-1)*20+50};
+					v2 = (t_v2){j*20 + 50, i*20 + 50};
+					v1.e1 = cos(M_PI/12)*v1.e1 - sin(M_PI/12)*v1.e2+50-5*map.height[(i-1)*map.col+j];
+					v1.e2 = sin(M_PI/12)*v1.e1 + cos(M_PI/12)*v1.e2-5*map.height[(i-1)*map.col+j];
+					v2.e1 = cos(M_PI/12)*v2.e1 - sin(M_PI/12)*v2.e2+50-5*map.height[i*map.col+j];
+					v2.e2 = sin(M_PI/12)*v2.e1 + cos(M_PI/12)*v2.e2-5*map.height[i*map.col+j];
+					draw_segment(v1, v2, mlx);
+				}
+			}
+		}
+	}
 	if (keycode == KEY_LEFT)
 		draw_segment(o, l, mlx);
 	if (keycode == KEY_DOWN)

@@ -4,7 +4,7 @@ CFLAGS := -lmlx -lXext -lX11 -lm
 NAME := fdf
 LIBFT := libft/libft.a
 
-SRC := main.c
+SRC :=  parser.c main.c
 
 all: $(NAME)
 

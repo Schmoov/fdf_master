@@ -97,3 +97,18 @@ t_hmap	parse_hmap(char *path)
 	ft_lstclear(&line_list, free);
 	return (map);
 }
+
+/*
+int main()
+{
+	t_hmap map = parse_hmap("maps/42.fdf");
+	for (int i = 0; i < map.row; i++)
+	{
+		for (int j = 0; j < map.col; j++)
+		{
+			ft_printf("%d ", map.height[j + i*map.col]);
+		}
+	ft_printf("\n");
+	}
+}
+*/
