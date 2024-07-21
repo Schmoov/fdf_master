@@ -4,7 +4,7 @@ CFLAGS := -lmlx -lXext -lX11
 NAME := fdf
 LIBFT := libft/libft.a
 
-SRC := $(wildcard *.c)
+SRC := main.c
 
 all: $(NAME)
 
@@ -17,6 +17,9 @@ $(LIBFT):
 fclean:
 	rm -f $(NAME)
 
+rfclean: fclean
+	make -C libft/ fclean
+
 re: fclean all
 
-:PHONY all fclean re
+:PHONY all fclean re rfclean

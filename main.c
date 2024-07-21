@@ -1,5 +1,5 @@
 #include <mlx.h>
-#include "libft/include/libft.h"
+#include "libft/libft.h"
 
 #define LEFT	65361
 #define DOWN	65364
@@ -15,33 +15,6 @@ typedef struct {
 	int		x;
 	int		y;
 }			vec2;
-
-int	**parse_map(char *path)
-{
-	int		**res;
-	int		fd = open(path, O_RDONLY);
-	int		nb_line = 0;
-	char	*line = get_next_line(fd);
-
-	while (line)
-	{
-		nb_line++;
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-
-	res = malloc((nb_line + 1) * sizeof(int *));
-	res[nb_line] = NULL;
-
-	fd = open(path, O_RDONLY);
-	line = get_next_line(fd);
-
-	int i = 0;
-	while (line)
-	{
-		char	**split = ft_split(line, ' ')
-		res[i] = 
 
 void	draw_line(vec2 start, vec2 end, t_mlx *mlx)
 {
