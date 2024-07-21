@@ -13,7 +13,6 @@ t_hmap	not_a_hmap(void)
 
 t_list	*list_lines(int fd)
 {
-	int		fd;
 	char	*line;
 	t_list	*head;
 	t_list	*tmp;
@@ -30,7 +29,7 @@ t_list	*list_lines(int fd)
 	{
 		tmp->next = ft_lstnew(line);
 		if (!tmp->next)
-			return (ft_lstclear(head, free), NULL);
+			return (ft_lstclear(&head, free), NULL);
 		tmp = tmp->next;
 		line = get_next_line(fd);
 	}
@@ -39,30 +38,28 @@ t_list	*list_lines(int fd)
 
 t_hmap	init_hmap(t_list *line_list)
 {
-	t_hmap	res;
-	char	**splited;
-	int		col_count;
+	t_hmap	map;
+	char	**split;
 
-	t_hmap.row = ft_lstsize(line_list);
-	splitted = ft_split(line_list->content, ' ');
-	if (!splitted)
+	map.row = ft_lstsize(line_list);
+	split = ft_split(line_list->content, ' ');
+	if (!split)
 		return (not_a_hmap());
-	i = 0;
-	while (splitted[col_count])
-		col_count++;
-	free_split(splitted);
-	t_hmap.col = col_count;
-	t_hmap.height = (int *)malloc(t_hmap.col * t_hmap.row * sizeof(int));
-	if (!t_hmap.height)
+	map.col = 0 ;
+	while (split[map.col])
+		map.col++;
+	ft_free_split(split);
+	map.height = (int *)malloc(map.col * map.row * sizeof(int));
+	if (!map.height)
 		return (not_a_hmap());
-	return (t_hmap);
+	return (map);
 }
 
 t_hmap	build_hmap(t_list *line_list)
 {
 	int		i_map;
 	int		i_split;
-	char	**splitted;
+	char	**split;
 	t_hmap	map;
 
 	map = init_hmap(line_list);
@@ -72,12 +69,12 @@ t_hmap	build_hmap(t_list *line_list)
 	while (line_list)
 	{
 		i_split = 0;
-		splitted = ft_split(line_list->content, ' ');
-		if (!splitted)
-			return (free(hmap.height), not_a_hmap());
-		while (splitted[i_split])
-			map.height[i_map++] = ft_atoi(splitted[i_split++]);
-		free_split(splitted);
+		split = ft_split(line_list->content, ' ');
+		if (!split)
+			return (free(map.height), not_a_hmap());
+		while (split[i_split])
+			map.height[i_map++] = ft_atoi(split[i_split++]);
+		ft_free_split(split);
 		line_list = line_list->next;
 	}
 	return (map);
@@ -93,9 +90,10 @@ t_hmap	parse_hmap(char *path)
 	if (fd == -1)
 		return (not_a_hmap());
 	line_list = list_lines(fd);
+	close(fd);
 	if (!line_list)
 		return (not_a_hmap());
 	map = build_hmap(line_list);
-	ft_lstclear(line_list, free);
+	ft_lstclear(&line_list, free);
 	return (map);
 }
