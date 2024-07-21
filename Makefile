@@ -1,5 +1,5 @@
 CC := cc
-CFLAGS := -lmlx -lXext -lX11
+CFLAGS := -lmlx -lXext -lX11 -lm
 
 NAME := fdf
 LIBFT := libft/libft.a
