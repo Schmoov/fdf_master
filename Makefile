@@ -12,12 +12,12 @@ SRC := $(wildcard $(SRC_DIR)*.c)
 OBJ_DIR := .obj/
 OBJ := $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 
-TEST_BIN_DIR := test/bin/
-TEST_BIN := $(patsubst $(OBJ_DIR)%.o, $(TEST_BIN_DIR)%, $(TEST_OBJ))
-
 TEST_SRC_DIR := test/src/
 TEST_SRC := $(wildcard $(TEST_SRC_DIR)*.c)
 TEST_OBJ := $(patsubst $(TEST_SRC_DIR)%.c, $(OBJ_DIR)%.o, $(TEST_SRC))
+
+TEST_BIN_DIR := test/bin/
+TEST_BIN := $(patsubst $(OBJ_DIR)%.o, $(TEST_BIN_DIR)%, $(TEST_OBJ))
 
 CRIT := -lcriterion
 ASAN := -fsanitize=address
@@ -36,10 +36,10 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@ mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(TEST_BIN_DIR)%.test: $(OBJ_DIR)%.test.o
+$(TEST_BIN_DIR)%.test: $(OBJ_DIR)%.o $(OBJ_DIR)%.test.o
 	@ mkdir -p $(TEST_BIN_DIR)
 	@ mkdir -p $(LOG_DIR)
-	$(CC) $(CFLAGS) $(SYSLIB) $< $(CRIT) -o $@
+	$(CC) $(CFLAGS) $(SYSLIB) $^ $(LIBFT) $(CRIT) -o $@
 	 ./$@
 
 $(TEST_BIN_DIR)%.memtest: $(OBJ_DIR)%.memtest.o
