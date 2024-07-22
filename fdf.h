@@ -20,15 +20,7 @@ typedef struct	s_mat4s{
 typedef struct	s_mat24{
 	double		val[2][4];
 }				t_mat24;
-
-//			RENDERING
-typedef struct s_screen_vertex{
-	int		cols;
-	int		rows;
-	vec2	*vertex;
-}			t_screen_vertex;
-
-hmap_to_screen_vert(t_map4s mat4, t_hmap hmap, t_screen_vertex *res);
+t_vec2	mat24_vec4_mult(t_mat24 mat, t_vec4 v);
 
 //			PARSING
 typedef struct s_hmap{
@@ -37,7 +29,7 @@ typedef struct s_hmap{
 	int		*height;
 }			t_hmap;
 t_hmap	not_a_hmap(void);
-t_hmap	parse_hmap(char *path)
+t_hmap	parse_hmap(char *path);
 
 //			MLX
 # define KEY_LEFT		65361
@@ -51,5 +43,13 @@ typedef struct s_mlx{
 	void	*win;
 }			t_mlx;
 
+//			RENDERING
+typedef struct s_screen_vertex{
+	int		cols;
+	int		rows;
+	t_vec2	*vertex;
+}			t_screen_vertex;
+
+void	hmap_to_screen_vert(t_mat24 mat24, t_hmap *hmap, t_screen_vertex *res);
 
 #endif

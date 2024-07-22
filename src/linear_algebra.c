@@ -103,25 +103,3 @@ t_mat4s	mat_rot(int axis, double angle)
 	res.val[ax2][ax1] = sin(angle);
 	return (res);
 }
-
-
-hmap_to_screen_vert(t_mat24 mat24, t_hmap *hmap, t_screen_vertex *res)
-{
-	int		i;
-	int		j;
-	t_vec4	v;
-
-	i = 0;
-	while (i < hmap.rows)
-	{
-		j = 0;
-		while (j < hmap.cols)
-		{
-			v = (vec4){j, i, hmap->val[i * hmap.cols + j], 1}
-			res->vertex[i][j] = mat24_vec4_mult(mat4, v);
-			j++;
-		}
-		i++;
-	}
-}
-

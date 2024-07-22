@@ -5,10 +5,9 @@ void	draw_segment(t_vec2 v1, t_vec2 v2, t_mlx *mlx)
 	int dx;
 	int dy;
 	int	i;
-	int	first;
 
-	dx = v2.e1 - v1.e1;
-	dy = v2.e2 - v1.e2;
+	dx = v2.e[0] - v1.e[0];
+	dy = v2.e[1] - v1.e[1];
 	if (!dx && !dy)
 		return ;
 	i = 0;
@@ -18,7 +17,7 @@ void	draw_segment(t_vec2 v1, t_vec2 v2, t_mlx *mlx)
 			return (draw_segment(v2, v1, mlx));
 		while (i <= dx)
 		{
-			mlx_pixel_put(mlx->ptr, mlx->win, v1.e1 + i, v1.e2 + (i * dy / dx), COLOR_WHITE);
+			mlx_pixel_put(mlx->ptr, mlx->win, v1.e[0] + i, v1.e[1] + (i * dy / dx), COLOR_WHITE);
 			i++;
 		}
 	}
@@ -28,7 +27,7 @@ void	draw_segment(t_vec2 v1, t_vec2 v2, t_mlx *mlx)
 			return (draw_segment(v2, v1, mlx));
 		while (i <= dy)
 		{
-			mlx_pixel_put(mlx->ptr, mlx->win, v1.e1 + (i * dx / dy), v1.e2 + i, COLOR_WHITE);
+			mlx_pixel_put(mlx->ptr, mlx->win, v1.e[0] + (i * dx / dy), v1.e[1] + i, COLOR_WHITE);
 			i++;
 		}
 	}
@@ -50,15 +49,15 @@ int	key_hook(int keycode, void *param)
 	if (keycode == 'c')
 		for (int theta = 0; theta < 360; theta++)
 		{
-			t_vec2 p = {o.e1 + 240*cos(theta*2*M_PI/360), o.e2 + 240*sin(theta*2*M_PI/360)};
+			t_vec2 p = {o.e[0] + 240*cos(theta*2*M_PI/360), o.e[1] + 240*sin(theta*2*M_PI/360)};
 			draw_segment(o, p, mlx);
 		}
 	if (keycode == 'd')
 	{
 		t_hmap map = parse_hmap("maps/42.fdf");
-		for (int i = 0; i < map.row; i++)
+		for (int i = 0; i < map.rows; i++)
 		{
-			for (int j = 0; j < map.col; j++)
+			for (int j = 0; j < map.cols; j++)
 			{
 				t_vec2 v1;
 				t_vec2 v2;
@@ -80,9 +79,9 @@ int	key_hook(int keycode, void *param)
 	if (keycode == 'r')
 	{
 		t_hmap map = parse_hmap("maps/42.fdf");
-		for (int i = 0; i < map.row; i++)
+		for (int i = 0; i < map.rows; i++)
 		{
-			for (int j = 0; j < map.col; j++)
+			for (int j = 0; j < map.cols; j++)
 			{
 				t_vec2 v1;
 				t_vec2 v2;
@@ -90,20 +89,20 @@ int	key_hook(int keycode, void *param)
 				{
 					v1 = (t_vec2){(j-1)*20+50, i*20+50};
 					v2 = (t_vec2){j*20 + 50, i*20 + 50};
-					v1.e1 = cos(M_PI/12)*v1.e1 - sin(M_PI/12)*v1.e2+50-5*map.height[i*map.col+j-1];
-					v1.e2 = sin(M_PI/12)*v1.e1 + cos(M_PI/12)*v1.e2-5*map.height[i*map.col+j-1];
-					v2.e1 = cos(M_PI/12)*v2.e1 - sin(M_PI/12)*v2.e2+50-5*map.height[i*map.col+j];
-					v2.e2 = sin(M_PI/12)*v2.e1 + cos(M_PI/12)*v2.e2-5*map.height[i*map.col+j];
+					v1.e[0] = cos(M_PI/12)*v1.e[0] - sin(M_PI/12)*v1.e[1]+50-5*map.height[i*map.cols+j-1];
+					v1.e[1] = sin(M_PI/12)*v1.e[0] + cos(M_PI/12)*v1.e[1]-5*map.height[i*map.cols+j-1];
+					v2.e[0] = cos(M_PI/12)*v2.e[0] - sin(M_PI/12)*v2.e[1]+50-5*map.height[i*map.cols+j];
+					v2.e[1] = sin(M_PI/12)*v2.e[0] + cos(M_PI/12)*v2.e[1]-5*map.height[i*map.cols+j];
 					draw_segment(v1, v2, mlx);
 				}
 				if (i)
 				{
 					v1 = (t_vec2){j*20+50, (i-1)*20+50};
 					v2 = (t_vec2){j*20 + 50, i*20 + 50};
-					v1.e1 = cos(M_PI/12)*v1.e1 - sin(M_PI/12)*v1.e2+50-5*map.height[(i-1)*map.col+j];
-					v1.e2 = sin(M_PI/12)*v1.e1 + cos(M_PI/12)*v1.e2-5*map.height[(i-1)*map.col+j];
-					v2.e1 = cos(M_PI/12)*v2.e1 - sin(M_PI/12)*v2.e2+50-5*map.height[i*map.col+j];
-					v2.e2 = sin(M_PI/12)*v2.e1 + cos(M_PI/12)*v2.e2-5*map.height[i*map.col+j];
+					v1.e[0] = cos(M_PI/12)*v1.e[0] - sin(M_PI/12)*v1.e[1]+50-5*map.height[(i-1)*map.cols+j];
+					v1.e[1] = sin(M_PI/12)*v1.e[0] + cos(M_PI/12)*v1.e[1]-5*map.height[(i-1)*map.cols+j];
+					v2.e[0] = cos(M_PI/12)*v2.e[0] - sin(M_PI/12)*v2.e[1]+50-5*map.height[i*map.cols+j];
+					v2.e[1] = sin(M_PI/12)*v2.e[0] + cos(M_PI/12)*v2.e[1]-5*map.height[i*map.cols+j];
 					draw_segment(v1, v2, mlx);
 				}
 			}

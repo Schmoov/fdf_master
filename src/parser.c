@@ -35,15 +35,15 @@ static t_hmap	init_hmap(t_list *line_list)
 	t_hmap	map;
 	char	**split;
 
-	map.row = ft_lstsize(line_list);
+	map.rows = ft_lstsize(line_list);
 	split = ft_split(line_list->content, ' ');
 	if (!split)
 		return (not_a_hmap());
-	map.col = 0 ;
-	while (split[map.col])
-		map.col++;
+	map.cols = 0 ;
+	while (split[map.cols])
+		map.cols++;
 	ft_free_split(split);
-	map.height = (int *)malloc(map.col * map.row * sizeof(int));
+	map.height = (int *)malloc(map.cols * map.rows * sizeof(int));
 	if (!map.height)
 		return (not_a_hmap());
 	return (map);
@@ -96,11 +96,11 @@ t_hmap	parse_hmap(char *path)
 int main()
 {
 	t_hmap map = parse_hmap("maps/42.fdf");
-	for (int i = 0; i < map.row; i++)
+	for (int i = 0; i < map.rows; i++)
 	{
-		for (int j = 0; j < map.col; j++)
+		for (int j = 0; j < map.cols; j++)
 		{
-			ft_printf("%d ", map.height[j + i*map.col]);
+			ft_printf("%d ", map.height[j + i*map.cols]);
 		}
 	ft_printf("\n");
 	}
