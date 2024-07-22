@@ -1,17 +1,11 @@
-#include "libft/libft.h"
-
-typedef struct s_hmap{
-	int		col;
-	int		row;
-	int		*height;
-}			t_hmap;
+#include "fdf.h"
 
 t_hmap	not_a_hmap(void)
 {
 	return ((t_hmap){-1, -1, NULL});
 }
 
-t_list	*list_lines(int fd)
+static t_list	*list_lines(int fd)
 {
 	char	*line;
 	t_list	*head;
@@ -36,7 +30,7 @@ t_list	*list_lines(int fd)
 	return (head);
 }
 
-t_hmap	init_hmap(t_list *line_list)
+static t_hmap	init_hmap(t_list *line_list)
 {
 	t_hmap	map;
 	char	**split;
@@ -55,7 +49,7 @@ t_hmap	init_hmap(t_list *line_list)
 	return (map);
 }
 
-t_hmap	build_hmap(t_list *line_list)
+static t_hmap	build_hmap(t_list *line_list)
 {
 	int		i_map;
 	int		i_split;

@@ -1,33 +1,6 @@
-#include <mlx.h>
-#include <math.h>
-#include "libft/libft.h"
+#include "fdf.h"
 
-#define KEY_LEFT	65361
-#define KEY_DOWN	65364
-#define KEY_UP		65362
-#define KEY_RIGHT	65363
-
-#define COLOR_WHITE	0xffffff
-
-typedef struct s_hmap{
-	int		col;
-	int		row;
-	int		*height;
-}			t_hmap;
-
-t_hmap	parse_hmap(char *path);
-
-typedef struct s_mlx{
-	void	*ptr;
-	void	*win;
-}			t_mlx;
-
-typedef struct s_v2{
-	int		e1;
-	int		e2;
-}			t_v2;
-
-void	draw_segment(t_v2 v1, t_v2 v2, t_mlx *mlx)
+void	draw_segment(t_vec2 v1, t_vec2 v2, t_mlx *mlx)
 {
 	int dx;
 	int dy;
@@ -66,18 +39,18 @@ int	key_hook(int keycode, void *param)
 {
 	t_mlx	*mlx = param;
 
-	t_v2	o = {320, 240};
-	t_v2	l = {220, 240};
-	t_v2	d = {320, 340};
-	t_v2	u = {320, 140};
-	t_v2	r = {420, 240};
+	t_vec2	o = {320, 240};
+	t_vec2	l = {220, 240};
+	t_vec2	d = {320, 340};
+	t_vec2	u = {320, 140};
+	t_vec2	r = {420, 240};
 	
 	ft_printf("Pressed %c code is %d\n", keycode, keycode);
 
 	if (keycode == 'c')
 		for (int theta = 0; theta < 360; theta++)
 		{
-			t_v2 p = {o.e1 + 240*cos(theta*2*M_PI/360), o.e2 + 240*sin(theta*2*M_PI/360)};
+			t_vec2 p = {o.e1 + 240*cos(theta*2*M_PI/360), o.e2 + 240*sin(theta*2*M_PI/360)};
 			draw_segment(o, p, mlx);
 		}
 	if (keycode == 'd')
@@ -87,18 +60,18 @@ int	key_hook(int keycode, void *param)
 		{
 			for (int j = 0; j < map.col; j++)
 			{
-				t_v2 v1;
-				t_v2 v2;
+				t_vec2 v1;
+				t_vec2 v2;
 				if (j)
 				{
-					v1 = (t_v2){(j-1)*20+50, i*20+50};
-					v2 = (t_v2){j*20 + 50, i*20 + 50};
+					v1 = (t_vec2){(j-1)*20+50, i*20+50};
+					v2 = (t_vec2){j*20 + 50, i*20 + 50};
 					draw_segment(v1, v2, mlx);
 				}
 				if (i)
 				{
-					v1 = (t_v2){j*20+50, (i-1)*20+50};
-					v2 = (t_v2){j*20 + 50, i*20 + 50};
+					v1 = (t_vec2){j*20+50, (i-1)*20+50};
+					v2 = (t_vec2){j*20 + 50, i*20 + 50};
 					draw_segment(v1, v2, mlx);
 				}
 			}
@@ -111,12 +84,12 @@ int	key_hook(int keycode, void *param)
 		{
 			for (int j = 0; j < map.col; j++)
 			{
-				t_v2 v1;
-				t_v2 v2;
+				t_vec2 v1;
+				t_vec2 v2;
 				if (j)
 				{
-					v1 = (t_v2){(j-1)*20+50, i*20+50};
-					v2 = (t_v2){j*20 + 50, i*20 + 50};
+					v1 = (t_vec2){(j-1)*20+50, i*20+50};
+					v2 = (t_vec2){j*20 + 50, i*20 + 50};
 					v1.e1 = cos(M_PI/12)*v1.e1 - sin(M_PI/12)*v1.e2+50-5*map.height[i*map.col+j-1];
 					v1.e2 = sin(M_PI/12)*v1.e1 + cos(M_PI/12)*v1.e2-5*map.height[i*map.col+j-1];
 					v2.e1 = cos(M_PI/12)*v2.e1 - sin(M_PI/12)*v2.e2+50-5*map.height[i*map.col+j];
@@ -125,8 +98,8 @@ int	key_hook(int keycode, void *param)
 				}
 				if (i)
 				{
-					v1 = (t_v2){j*20+50, (i-1)*20+50};
-					v2 = (t_v2){j*20 + 50, i*20 + 50};
+					v1 = (t_vec2){j*20+50, (i-1)*20+50};
+					v2 = (t_vec2){j*20 + 50, i*20 + 50};
 					v1.e1 = cos(M_PI/12)*v1.e1 - sin(M_PI/12)*v1.e2+50-5*map.height[(i-1)*map.col+j];
 					v1.e2 = sin(M_PI/12)*v1.e1 + cos(M_PI/12)*v1.e2-5*map.height[(i-1)*map.col+j];
 					v2.e1 = cos(M_PI/12)*v2.e1 - sin(M_PI/12)*v2.e2+50-5*map.height[i*map.col+j];
