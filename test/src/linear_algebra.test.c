@@ -11,11 +11,6 @@ t_mat4s	r2_mat4s = {{	{   1.f,   10.f,  100.f, 1000.f},
 						{ 100.f, 1000.f,    1.f,   10.f},
 						{1000.f,  100.f,   10.f,    1.f}}};
 
-t_mat4s	r1xr2_mat4s = {{{ 4321.f,  3412.f,  2143.f, 1234.f},
-						{ 8765.f,  7856.f,  6587.f, 5678.f},
-						{13209.f, 12300.f, 11031.f, 10122.f},
-						{17653.f, 16744.f, 15475.f, 14566.f}}};
-
 Test(float, nonsense)
 {
 	cr_expect_eq(.1f + .2f, .3f);
@@ -24,4 +19,15 @@ Test(float, nonsense)
 	cr_expect_float_eq(.1 + .2, .3, DBL_EPSILON);
 	cr_expect_float_eq(.1f + .2f, .3f, FLT_EPSILON);
 	cr_expect_float_eq(1000000001000001.f + 2000000000000000.f, 3000000000000000.f, FLT_EPSILON);
+}
+Test(matrix, mult4s)
+{
+	t_mat4s	exp_mat = {{	{ 4321.f,  3412.f,  2143.f, 1234.f},
+							{ 8765.f,  7856.f,  6587.f, 5678.f},
+							{13209.f, 12300.f, 11031.f, 10122.f},
+							{17653.f, 16744.f, 15475.f, 14566.f}}};
+	t_mat4s	act_mat = mat4s_mult(r1_mat4s, r2_mat4s);
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			cr_expect_float_eq(act_mat.val[i][j],exp_mat.val[i][j], FLT_EPSILON);
 }

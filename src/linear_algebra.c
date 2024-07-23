@@ -47,15 +47,15 @@ t_mat4s	mat4s_mult(t_mat4s left, t_mat4s right)
 	return (res);
 }
 
-t_vec2	mat24_vec4_mult(t_mat24 mat, t_vec4 v)
+t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v)
 {
-	t_vec2	res;
+	t_vec4	res;
 	int		i;
 	int		j;
 
-	res = (t_vec2){0, 0};
+	res = (t_vec4){0.f, 0.f, 0.f, 0.f};
 	i = 0;
-	while (i < 2)
+	while (i < 4)
 	{
 		j = 0;
 		while (j < 4)

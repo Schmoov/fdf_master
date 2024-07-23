@@ -21,7 +21,8 @@ typedef struct	s_mat24{
 	float		val[2][4];
 }				t_mat24;
 t_mat4s	mat_nul(void);
-t_vec2	mat24_vec4_mult(t_mat24 mat, t_vec4 v);
+t_mat4s	mat4s_mult(t_mat4s left, t_mat4s right);
+t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v);
 
 //			PARSING
 typedef struct s_hmap{
@@ -33,10 +34,14 @@ t_hmap	not_a_hmap(void);
 t_hmap	parse_hmap(char *path);
 
 //			MLX
+# define WIN_WIDTH		640
+# define WIN_HEIGHT		480
+
 # define KEY_LEFT		65361
 # define KEY_DOWN		65364
 # define KEY_UP			65362
 # define KEY_RIGHT		65363
+# define KEY_ESC		65307
 
 # define COLOR_WHITE	0xffffff
 typedef struct s_mlx{
@@ -45,12 +50,13 @@ typedef struct s_mlx{
 }			t_mlx;
 
 //			RENDERING
-typedef struct s_screen_vertex{
+typedef struct s_4dvxmap{
 	int		cols;
 	int		rows;
-	t_vec2	*vertex;
-}			t_screen_vertex;
+	t_vec4	*vertex;
+}			t_4dvxmap;
 
-void	hmap_to_screen_vert(t_mat24 mat24, t_hmap *hmap, t_screen_vertex *res);
+void	draw_segment(t_vec4 start, t_vec4 end, t_mlx *mlx);
+void	hmap_to_screen_vert(t_mat4s mat, t_hmap *hmap, t_4dvxmap *res);
 
 #endif
