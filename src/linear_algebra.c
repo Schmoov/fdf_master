@@ -89,7 +89,7 @@ void	assign_other_axis(int axis, int *ax1, int *ax2)
 }
 
 //axis==0 rotate around x 1 y 2 z
-t_mat4s	mat_rot(int axis, double angle)
+t_mat4s	mat_rot(int axis, float angle)
 {
 	t_mat4s	res;
 	int		ax1;

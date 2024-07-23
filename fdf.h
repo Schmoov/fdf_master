@@ -6,19 +6,19 @@
 
 //			LINEAR ALGEBRA
 typedef struct	s_vec2{
-	double		e[2];
+	float		e[2];
 }				t_vec2;
 
 typedef struct	s_vec4{
-	double		e[4];
+	float		e[4];
 }				t_vec4;
 
 typedef struct	s_mat4s{
-	double		val[4][4];
+	float		val[4][4];
 }				t_mat4s;
 
 typedef struct	s_mat24{
-	double		val[2][4];
+	float		val[2][4];
 }				t_mat24;
 t_mat4s	mat_nul(void);
 t_vec2	mat24_vec4_mult(t_mat24 mat, t_vec4 v);
