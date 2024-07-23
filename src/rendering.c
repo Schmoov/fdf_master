@@ -46,48 +46,56 @@ void	draw_moire(t_mlx mlx, float nb_radius)
 	}
 }
 
-void	draw_fdf(t_mlx mlx)
+t_vmap	init_vmap(t_hmap hmap)
 {
-	int	i;
-	int	j;
-	t_vmap vmap = mlx.vmap;
+	t_vmap	res;
+
+	res.rows = hmap.rows;
+	res.cols = hmap.cols;
+	res.val = malloc(res.rows * res.cols * sizeof(*(res.val)));
+	return (res);
+}
+
+void	update_vmap(t_state st)
+{
+	int		i;
+	int		j;
+	t_vec4	v;
+
 	i = 0;
-	while (i < vmap.rows)
+	while (i < st.hmap.rows)
 	{
 		j = 0;
-		while (j < vmap.cols)
+		while (j < st.hmap.cols)
 		{
-			if (i)
-				draw_segment(mlx, vmap.val[(i-1)*vmap.cols+j], vmap.val[i*vmap.cols+j]);
-			if (j)
-				draw_segment(mlx, vmap.val[i*vmap.cols+j-1], vmap.val[i*vmap.cols+j]);
+			v = (t_vec4){j, i, st.hmap.height[i * st.hmap.cols + j], 1};
+			st.vmap.val[i * st.hmap.cols + j] = mat4s_vec4_mult(st.mat, v);
 			j++;
 		}
 		i++;
 	}
 }
 
-t_vmap	hmap_to_vmap(t_hmap hmap, t_mat4s mat)
+void	draw_fdf(t_state st)
 {
 	int		i;
 	int		j;
-	t_vec4	v;
-	t_vmap	res;
+	t_vmap	v;
 
-	res.rows = hmap.rows;
-	res.cols = hmap.cols;
-	res.val = malloc(res.rows * res.cols * sizeof(*(res.val)));
+	update_vmap(st);
 	i = 0;
-	while (i < hmap.rows)
+	v = st.vmap;
+	while (i < v.rows)
 	{
 		j = 0;
-		while (j < hmap.cols)
+		while (j < v.cols)
 		{
-			v = (t_vec4){j, i, hmap.height[i * hmap.cols + j], 1};
-			res.val[i * hmap.cols + j] = mat4s_vec4_mult(mat, v);
+			if (i)
+				draw_segment(st.mlx, v.val[(i-1)*v.cols+j], v.val[i*v.cols+j]);
+			if (j)
+				draw_segment(st.mlx, v.val[i*v.cols+j-1], v.val[i*v.cols+j]);
 			j++;
 		}
 		i++;
 	}
-	return (res);
 }

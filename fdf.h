@@ -22,7 +22,10 @@ typedef struct	s_mat24{
 }				t_mat24;
 t_mat4s	mat_nul(void);
 t_mat4s	mat_id(void);
+t_mat4s	mat_scale(float factor);
+t_mat4s	mat_scale_axis(int axis, float factor);
 t_mat4s	mat_rot(int axis, float angle);
+t_mat4s	mat_trans(int axis, float mag);
 t_mat4s	mat4s_mult(t_mat4s left, t_mat4s right);
 t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v);
 
@@ -36,33 +39,43 @@ t_hmap	not_a_hmap(void);
 t_hmap	parse_hmap(char *path);
 
 //			MLX
-# define WIN_WIDTH		640
-# define WIN_HEIGHT		480
+# define WIN_WIDTH		1280
+# define WIN_HEIGHT		720
 
+# define KEY_ESC		65307
+# define KEY_PLUS		65451
+# define KEY_MINUS		65453
+# define KEY_MULT		65450
+# define KEY_DIV		65455
 # define KEY_LEFT		65361
 # define KEY_DOWN		65364
 # define KEY_UP			65362
 # define KEY_RIGHT		65363
-# define KEY_ESC		65307
 
 # define COLOR_WHITE	0xffffff
-typedef struct s_vmap{
+typedef struct s_vmap {
 	int		cols;
 	int		rows;
 	t_vec4	*val;
 }			t_vmap;
 
-typedef struct s_mlx{
+typedef struct s_mlx {
 	void	*ptr;
 	void	*win;
-	t_hmap	hmap;
-	t_vmap	vmap;
 }			t_mlx;
 
+typedef struct s_state {
+	t_mlx	mlx;
+	t_hmap	hmap;
+	t_mat4s	mat;
+	t_vmap	vmap;
+}				t_state;
+
 //			RENDERING
+t_vmap	init_vmap(t_hmap hmap);
+void	update_vmap(t_state st);
 void	draw_segment(t_mlx mlx, t_vec4 start, t_vec4 end);
 void	draw_moire(t_mlx mlx, float nb_radius);
-void	draw_fdf(t_mlx mlx);
-t_vmap	hmap_to_vmap(t_hmap hmap, t_mat4s mat);
+void	draw_fdf(t_state st);
 
 #endif

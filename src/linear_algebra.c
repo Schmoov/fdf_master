@@ -103,3 +103,32 @@ t_mat4s	mat_rot(int axis, float angle)
 	res.val[ax2][ax1] = sin(angle);
 	return (res);
 }
+
+t_mat4s	mat_scale(float factor)
+{
+	t_mat4s	res;
+
+	res = mat_id();
+	res.val[0][0] = factor;
+	res.val[1][1] = factor;
+	res.val[2][2] = factor;
+	return (res);
+}
+
+t_mat4s	mat_scale_axis(int axis, float factor)
+{
+	t_mat4s	res;
+
+	res = mat_id();
+	res.val[axis][axis] = factor;
+	return (res);
+}
+
+t_mat4s	mat_trans(int axis, float mag)
+{
+	t_mat4s	res;
+
+	res = mat_id();
+	res.val[axis][3] = mag;
+	return (res);
+}
