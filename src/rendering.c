@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-void	draw_segment(t_vec4 v1, t_vec4 v2, t_mlx *mlx)
+void	draw_segment(t_mlx mlx, t_vec4 v1, t_vec4 v2)
 {
 	int dx;
 	int dy;
@@ -14,43 +14,80 @@ void	draw_segment(t_vec4 v1, t_vec4 v2, t_mlx *mlx)
 	if (ft_iabs(dx) >= ft_iabs(dy))
 	{
 		if (dx < 0)
-			return (draw_segment(v2, v1, mlx));
+			return (draw_segment(mlx, v2, v1));
 		while (i <= dx)
 		{
-			mlx_pixel_put(mlx->ptr, mlx->win, v1.e[0] + i, v1.e[1] + (i * dy / dx), COLOR_WHITE);
+			mlx_pixel_put(mlx.ptr, mlx.win, v1.e[0] + i, v1.e[1] + (i * dy / dx), COLOR_WHITE);
 			i++;
 		}
 	}
 	else
 	{
 		if (dy < 0)
-			return (draw_segment(v2, v1, mlx));
+			return (draw_segment(mlx, v2, v1));
 		while (i <= dy)
 		{
-			mlx_pixel_put(mlx->ptr, mlx->win, v1.e[0] + (i * dx / dy), v1.e[1] + i, COLOR_WHITE);
+			mlx_pixel_put(mlx.ptr, mlx.win, v1.e[0] + (i * dx / dy), v1.e[1] + i, COLOR_WHITE);
 			i++;
 		}
 	}
 	return ;
 }
 
-void	hmap_to_4dvxmap(t_mat4s mat, t_hmap *hmap, t_4dvxmap *res)
+void	draw_moire(t_mlx mlx, float nb_radius)
 {
-	int		i;
-	int		j;
-	t_vec4	v;
+	t_vec4	c = {{WIN_WIDTH/2.f, WIN_HEIGHT/2.f, 0, 1}};
+	float	r = fmin(WIN_WIDTH, WIN_HEIGHT)/2;
+	for (int theta = 0; theta < nb_radius; theta++)
+	{
+		float angle = theta * 2.f * M_PI / nb_radius;
+		t_vec4 p = {c.e[0]+r*cos(angle), c.e[1]+r*sin(angle), c.e[2], c.e[3]};
+		draw_segment(mlx, c, p);
+	}
+}
 
+void	draw_fdf(t_mlx mlx)
+{
+	int	i;
+	int	j;
+	t_vmap vmap = mlx.vmap;
 	i = 0;
-	while (i < hmap->rows)
+	while (i < vmap.rows)
 	{
 		j = 0;
-		while (j < hmap->cols)
+		while (j < vmap.cols)
 		{
-			v = (t_vec4){j, i, hmap->height[i * hmap->cols + j], 1};
-			res->vertex[i * hmap->cols + j] = mat4s_vec4_mult(mat, v);
+			if (i)
+				draw_segment(mlx, vmap.val[(i-1)*vmap.cols+j], vmap.val[i*vmap.cols+j]);
+			if (j)
+				draw_segment(mlx, vmap.val[i*vmap.cols+j-1], vmap.val[i*vmap.cols+j]);
 			j++;
 		}
 		i++;
 	}
 }
 
+t_vmap	hmap_to_vmap(t_hmap hmap, t_mat4s mat)
+{
+	int		i;
+	int		j;
+	t_vec4	v;
+	t_vmap	res;
+
+	res.rows = hmap.rows;
+	res.cols = hmap.cols;
+	res.val = malloc(res.rows * res.cols * sizeof(*(res.val)));
+	i = 0;
+	while (i < hmap.rows)
+	{
+		j = 0;
+		while (j < hmap.cols)
+		{
+			v = (t_vec4){j, i, hmap.height[i * hmap.cols + j], 1};
+			res.val[i * hmap.cols + j] = mat4s_vec4_mult(mat, v);
+			j++;
+		}
+		i++;
+	}
+	return (res);
+}

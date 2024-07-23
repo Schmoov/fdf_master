@@ -21,6 +21,8 @@ typedef struct	s_mat24{
 	float		val[2][4];
 }				t_mat24;
 t_mat4s	mat_nul(void);
+t_mat4s	mat_id(void);
+t_mat4s	mat_rot(int axis, float angle);
 t_mat4s	mat4s_mult(t_mat4s left, t_mat4s right);
 t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v);
 
@@ -44,19 +46,23 @@ t_hmap	parse_hmap(char *path);
 # define KEY_ESC		65307
 
 # define COLOR_WHITE	0xffffff
+typedef struct s_vmap{
+	int		cols;
+	int		rows;
+	t_vec4	*val;
+}			t_vmap;
+
 typedef struct s_mlx{
 	void	*ptr;
 	void	*win;
+	t_hmap	hmap;
+	t_vmap	vmap;
 }			t_mlx;
 
 //			RENDERING
-typedef struct s_4dvxmap{
-	int		cols;
-	int		rows;
-	t_vec4	*vertex;
-}			t_4dvxmap;
-
-void	draw_segment(t_vec4 start, t_vec4 end, t_mlx *mlx);
-void	hmap_to_screen_vert(t_mat4s mat, t_hmap *hmap, t_4dvxmap *res);
+void	draw_segment(t_mlx mlx, t_vec4 start, t_vec4 end);
+void	draw_moire(t_mlx mlx, float nb_radius);
+void	draw_fdf(t_mlx mlx);
+t_vmap	hmap_to_vmap(t_hmap hmap, t_mat4s mat);
 
 #endif
