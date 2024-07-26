@@ -39,8 +39,8 @@ t_hmap	not_a_hmap(void);
 t_hmap	parse_hmap(char *path);
 
 //			MLX
-# define WIN_WIDTH		1280
-# define WIN_HEIGHT		720
+# define WIN_WIDTH		1600
+# define WIN_HEIGHT		900
 
 # define KEY_ESC		65307
 # define KEY_PLUS		65451
@@ -68,7 +68,8 @@ typedef struct s_state {
 	t_mlx	mlx;
 	t_hmap	hmap;
 	t_mat4s	mat;
-	t_vmap	vmap;
+	void	*img;
+	void	*overlay;
 }				t_state;
 //			INPUT HANDLING
 int	key_hook(int keycode, void *param);

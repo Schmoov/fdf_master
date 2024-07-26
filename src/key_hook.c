@@ -110,6 +110,14 @@ int	key_hook(int keycode, void *param)
 		handle_translation_key(keycode, param);
 	else if (is_special_key(keycode))
 		handle_special_key(keycode, param);
+	if (keycode == 'x')
+	{
+		t_state	*st = param;
+		int w, h;
+		void *img = mlx_xpm_file_to_image(st->mlx.ptr, "xpm/arrow.xpm", &w, &h);
+		ft_printf("%d, %d\n", w, h);
+		mlx_put_image_to_window(st->mlx.ptr, st->mlx.win, img, 100, 100);
+	}
 	return (0);
 }
 
