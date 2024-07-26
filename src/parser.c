@@ -43,35 +43,34 @@ static t_hmap	init_hmap(t_list *line_list)
 	while (split[map.cols])
 		map.cols++;
 	ft_free_split(split);
-	map.height = (int *)malloc(map.cols * map.rows * sizeof(int));
+	map.height = (float *)malloc(map.cols * map.rows * sizeof(int));
 	if (!map.height)
 		return (not_a_hmap());
 	return (map);
 }
 
-static t_hmap	build_hmap(t_list *line_list)
+void	fill_hmap(t_list *line_list, t_hmap *map)
 {
 	int		i_map;
 	int		i_split;
 	char	**split;
-	t_hmap	map;
 
-	map = init_hmap(line_list);
-	if (!map.height)
-		return (not_a_hmap());
 	i_map = 0;
 	while (line_list)
 	{
 		i_split = 0;
 		split = ft_split(line_list->content, ' ');
 		if (!split)
-			return (free(map.height), not_a_hmap());
+		{
+			free(map->height);
+			*map = not_a_hmap();
+			return ;
+		}
 		while (split[i_split])
-			map.height[i_map++] = ft_atoi(split[i_split++]);
+			map->height[i_map++] = ft_atoi(split[i_split++]);
 		ft_free_split(split);
 		line_list = line_list->next;
 	}
-	return (map);
 }
 
 t_hmap	parse_hmap(char *path)
@@ -87,7 +86,10 @@ t_hmap	parse_hmap(char *path)
 	close(fd);
 	if (!line_list)
 		return (not_a_hmap());
-	map = build_hmap(line_list);
+	map = init_hmap(line_list);
+	if (!map.height)
+		return (ft_lstclear(&line_list, free), not_a_hmap());
+	fill_hmap(line_list, &map);
 	ft_lstclear(&line_list, free);
 	return (map);
 }
@@ -100,9 +102,9 @@ int main()
 	{
 		for (int j = 0; j < map.cols; j++)
 		{
-			ft_printf("%d ", map.height[j + i*map.cols]);
+			printf("%f ", map.height[j + i*map.cols]);
 		}
-	ft_printf("\n");
+	printf("\n");
 	}
 }
 */

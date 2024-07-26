@@ -44,37 +44,37 @@ int	key_hook(int keycode, void *param)
 	}
 	if (keycode == 'i')
 	{
-		st->mat = mat4s_mult(mat_rot(0, M_PI/12), st->mat);
+		st->mat = mat4s_mult(st->mat, mat_rot(0, M_PI/12));
 		mlx_clear_window(st->mlx.ptr, st->mlx.win);
 		draw_fdf(*st);
 	}
 	if (keycode == 'k')
 	{
-		st->mat = mat4s_mult(mat_rot(0, -M_PI/12), st->mat);
+		st->mat = mat4s_mult(st->mat, mat_rot(0, -M_PI/12));
 		mlx_clear_window(st->mlx.ptr, st->mlx.win);
 		draw_fdf(*st);
 	}
 	if (keycode == 'j')
 	{
-		st->mat = mat4s_mult(mat_rot(1, M_PI/12), st->mat);
+		st->mat = mat4s_mult(st->mat, mat_rot(1, M_PI/12));
 		mlx_clear_window(st->mlx.ptr, st->mlx.win);
 		draw_fdf(*st);
 	}
 	if (keycode == 'l')
 	{
-		st->mat = mat4s_mult(mat_rot(1, -M_PI/12), st->mat);
+		st->mat = mat4s_mult(st->mat, mat_rot(1, -M_PI/12));
 		mlx_clear_window(st->mlx.ptr, st->mlx.win);
 		draw_fdf(*st);
 	}
 	if (keycode == 'u')
 	{
-		st->mat = mat4s_mult(mat_rot(2, M_PI/12), st->mat);
+		st->mat = mat4s_mult(st->mat, mat_rot(2, M_PI/12));
 		mlx_clear_window(st->mlx.ptr, st->mlx.win);
 		draw_fdf(*st);
 	}
 	if (keycode == 'o')
 	{
-		st->mat = mat4s_mult(mat_rot(2, -M_PI/12), st->mat);
+		st->mat = mat4s_mult(st->mat, mat_rot(2, -M_PI/12));
 		mlx_clear_window(st->mlx.ptr, st->mlx.win);
 		draw_fdf(*st);
 	}

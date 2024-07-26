@@ -60,16 +60,20 @@ void	update_vmap(t_state st)
 {
 	int		i;
 	int		j;
+	int		rows;
+	int		cols;
 	t_vec4	v;
 
 	i = 0;
-	while (i < st.hmap.rows)
+	rows = st.hmap.rows;
+	cols = st.hmap.cols;
+	while (i < rows)
 	{
 		j = 0;
-		while (j < st.hmap.cols)
+		while (j < cols)
 		{
-			v = (t_vec4){j, i, st.hmap.height[i * st.hmap.cols + j], 1};
-			st.vmap.val[i * st.hmap.cols + j] = mat4s_vec4_mult(st.mat, v);
+			v = (t_vec4){j - cols / 2.f, i - rows / 2.f, st.hmap.height[i * cols + j], 1};
+			st.vmap.val[i * cols + j] = mat4s_vec4_mult(st.mat, v);
 			j++;
 		}
 		i++;

@@ -33,7 +33,7 @@ t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v);
 typedef struct s_hmap{
 	int		cols;
 	int		rows;
-	int		*height;
+	float	*height;
 }			t_hmap;
 t_hmap	not_a_hmap(void);
 t_hmap	parse_hmap(char *path);
