@@ -68,6 +68,7 @@ typedef struct s_state {
 	t_mlx	mlx;
 	t_hmap	hmap;
 	t_mat4s	mat;
+	t_vmap	vmap;
 	void	*img;
 	void	*overlay;
 }				t_state;
@@ -76,7 +77,7 @@ int	key_hook(int keycode, void *param);
 //			RENDERING
 t_vmap	init_vmap(t_hmap hmap);
 void	update_vmap(t_state st);
-void	draw_segment(t_mlx mlx, t_vec4 start, t_vec4 end);
+void	draw_segment(t_state st, t_vec4 start, t_vec4 end);
 void	draw_moire(t_mlx mlx, float nb_radius);
 void	draw_fdf(t_state st);
 

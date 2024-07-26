@@ -1,6 +1,19 @@
 #include "fdf.h"
 
-void	draw_segment(t_mlx mlx, t_vec4 v1, t_vec4 v2)
+void	img_pixel_put(t_state st, int x, int y, int color)
+{
+	int		*line;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+
+	line = (int *)mlx_get_data_addr(st.img, &bits_per_pixel, &size_line, &endian);
+	//ft_printf("bbp %d, sizL %d, end %d\n", bits_per_pixel, size_line, endian);
+	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+		line[y * size_line / sizeof(int) + x] = mlx_get_color_value(st.mlx.ptr, color);
+}
+
+void	draw_segment(t_state st, t_vec4 v1, t_vec4 v2)
 {
 	int dx;
 	int dy;
@@ -14,26 +27,27 @@ void	draw_segment(t_mlx mlx, t_vec4 v1, t_vec4 v2)
 	if (ft_iabs(dx) >= ft_iabs(dy))
 	{
 		if (dx < 0)
-			return (draw_segment(mlx, v2, v1));
+			return (draw_segment(st, v2, v1));
 		while (i <= dx)
 		{
-			mlx_pixel_put(mlx.ptr, mlx.win, v1.e[0] + i, v1.e[1] + (i * dy / dx), COLOR_WHITE);
+			img_pixel_put(st, v1.e[0] + i, v1.e[1] + (i * dy / dx), COLOR_WHITE);
 			i++;
 		}
 	}
 	else
 	{
 		if (dy < 0)
-			return (draw_segment(mlx, v2, v1));
+			return (draw_segment(st, v2, v1));
 		while (i <= dy)
 		{
-			mlx_pixel_put(mlx.ptr, mlx.win, v1.e[0] + (i * dx / dy), v1.e[1] + i, COLOR_WHITE);
+			img_pixel_put(st, v1.e[0] + (i * dx / dy), v1.e[1] + i, COLOR_WHITE);
 			i++;
 		}
 	}
 	return ;
 }
 
+/*
 void	draw_moire(t_mlx mlx, float nb_radius)
 {
 	t_vec4	c = {{WIN_WIDTH/2.f, WIN_HEIGHT/2.f, 0, 1}};
@@ -45,6 +59,7 @@ void	draw_moire(t_mlx mlx, float nb_radius)
 		draw_segment(mlx, c, p);
 	}
 }
+*/
 
 t_vmap	init_vmap(t_hmap hmap)
 {
@@ -95,11 +110,12 @@ void	draw_fdf(t_state st)
 		while (j < v.cols)
 		{
 			if (i)
-				draw_segment(st.mlx, v.val[(i-1)*v.cols+j], v.val[i*v.cols+j]);
+				draw_segment(st, v.val[(i-1)*v.cols+j], v.val[i*v.cols+j]);
 			if (j)
-				draw_segment(st.mlx, v.val[i*v.cols+j-1], v.val[i*v.cols+j]);
+				draw_segment(st, v.val[i*v.cols+j-1], v.val[i*v.cols+j]);
 			j++;
 		}
 		i++;
 	}
+	mlx_put_image_to_window(st.mlx.ptr, st.mlx.win, st.img, 0, 0);
 }

@@ -37,6 +37,8 @@ void	handle_scaling_key(int keycode, void *param)
 		st->mat = mat4s_mult(st->mat, mat_scale_axis(2, 1.5f));
 	else if (keycode == KEY_DIV)
 		st->mat = mat4s_mult(st->mat, mat_scale_axis(2, 2.f/3));
+	mlx_destroy_image(st->mlx.ptr, st->img);
+	st->img = mlx_new_image(st->mlx.ptr, WIN_WIDTH, WIN_HEIGHT);
 	mlx_clear_window(st->mlx.ptr, st->mlx.win);
 	draw_fdf(*st);
 }
@@ -59,6 +61,8 @@ void	handle_rotation_key(int keycode, void *param)
 	else
 		angle = -M_PI/12;
 	st->mat = mat4s_mult(st->mat, mat_rot(axis, angle));
+	mlx_destroy_image(st->mlx.ptr, st->img);
+	st->img = mlx_new_image(st->mlx.ptr, WIN_WIDTH, WIN_HEIGHT);
 	mlx_clear_window(st->mlx.ptr, st->mlx.win);
 	draw_fdf(*st);
 }
@@ -81,6 +85,8 @@ void	handle_translation_key(int keycode, void *param)
 	else
 		mag = -30.f;
 	st->mat = mat4s_mult(mat_trans(axis, mag), st->mat);
+	mlx_destroy_image(st->mlx.ptr, st->img);
+	st->img = mlx_new_image(st->mlx.ptr, WIN_WIDTH, WIN_HEIGHT);
 	mlx_clear_window(st->mlx.ptr, st->mlx.win);
 	draw_fdf(*st);
 }

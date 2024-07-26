@@ -1,4 +1,4 @@
-CC := cc
+CC := cc -g
 CFLAGS := -Wall -Wextra -Werror
 SYSLIB := -lmlx -lXext -lX11 -lm
 
