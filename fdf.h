@@ -70,7 +70,8 @@ typedef struct s_state {
 	t_mat4s	mat;
 	t_vmap	vmap;
 }				t_state;
-
+//			INPUT HANDLING
+int	key_hook(int keycode, void *param);
 //			RENDERING
 t_vmap	init_vmap(t_hmap hmap);
 void	update_vmap(t_state st);
