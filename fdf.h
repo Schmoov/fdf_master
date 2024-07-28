@@ -32,6 +32,10 @@ enum e_error {
 	E_NOMEM,
 	E_ACCESS,
 	E_EMPTY,
+	E_MLXPTR,
+	E_MLXWIN,
+	E_NEWIMG,
+	E_OVERLAY,
 }
 void	parse_hmap(t_model *model, char *path);
 
@@ -64,6 +68,7 @@ typedef struct s_view {
 	void	*win;
 	void	*img;
 	void	*overlay;
+	e_error	err;
 }				t_view;
 //			INPUT HANDLING
 int	key_hook(int keycode, void *param);

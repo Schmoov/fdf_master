@@ -1,7 +1,7 @@
 #include "fdf.h"
 
 // bpp -> bits per pixel
-void	img_pixel_put(void *img, int x, int y, int color)
+static void	img_pixel_put(void *img, int x, int y, int color)
 {
 	int		*line;
 	int		bpp;
@@ -14,7 +14,7 @@ void	img_pixel_put(void *img, int x, int y, int color)
 		line[y * size / sizeof(int) + x] = color;
 }
 
-void	draw_line_naive(void *img, t_vec4 v1, t_vec4 v2)
+static void	draw_line_n(void *img, t_vec4 v1, t_vec4 v2)
 {
 	int dx;
 	int dy;
@@ -28,7 +28,7 @@ void	draw_line_naive(void *img, t_vec4 v1, t_vec4 v2)
 	if (ft_iabs(dx) >= ft_iabs(dy))
 	{
 		if (dx < 0)
-			return (draw_segment(img, v2, v1));
+			return (draw_line_n(img, v2, v1));
 		while (i <= dx)
 		{
 			img_pixel_put(img, v1.e[0] + i, v1.e[1] + (i * dy / dx), COLOR_WHITE);
@@ -38,7 +38,7 @@ void	draw_line_naive(void *img, t_vec4 v1, t_vec4 v2)
 	else
 	{
 		if (dy < 0)
-			return (draw_segment(img, v2, v1));
+			return (draw_line_n(img, v2, v1));
 		while (i <= dy)
 		{
 			img_pixel_put(img, v1.e[0] + (i * dx / dy), v1.e[1] + i, COLOR_WHITE);
@@ -46,4 +46,29 @@ void	draw_line_naive(void *img, t_vec4 v1, t_vec4 v2)
 		}
 	}
 	return ;
+}
+
+void	draw_fdf(t_model *model, void *img)
+{
+	int		i;
+	int		j;
+	int		idx;
+	t_vec4	*vmap;
+
+	vmap = model->vmap;
+	i = 0;
+	while (i < model->rows)
+	{
+		j = 0;
+		while (j < model->cols)
+		{
+			idx = i * model->cols + j;
+			if (i)
+				draw_line_n(img, vmap[idx - model->cols], vmap[idx]);
+			if (j)
+				draw_segment(img, vmap[idx - 1], vmap[idx]);
+			j++;
+		}
+		i++;
+	}
 }

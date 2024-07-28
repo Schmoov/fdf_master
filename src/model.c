@@ -37,32 +37,13 @@ void	init_model(t_model *model, const char *path)
 	compute_vmap(model);
 }
 
-void	update_model(t_model model)
+void	update_model(t_model *model)
 {
 	compute_vmap(model);
 }
 
-void	draw_fdf(t_state st)
+void	destroy_model(t_model *model)
 {
-	int		i;
-	int		j;
-	t_vmap	v;
-
-	update_vmap(st);
-	i = 0;
-	v = st.vmap;
-	while (i < v.rows)
-	{
-		j = 0;
-		while (j < v.cols)
-		{
-			if (i)
-				draw_segment(st, v.val[(i-1)*v.cols+j], v.val[i*v.cols+j]);
-			if (j)
-				draw_segment(st, v.val[i*v.cols+j-1], v.val[i*v.cols+j]);
-			j++;
-		}
-		i++;
-	}
-	mlx_put_image_to_window(st.mlx.ptr, st.mlx.win, st.img, 0, 0);
+	free(model->hmap);
+	free(model->vmap);
 }

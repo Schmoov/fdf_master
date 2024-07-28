@@ -1,11 +1,9 @@
 #include "fdf.h"
-
-void	init_view(t_view *view, const char *path)
+void	init_controller(t_model *model, t_view *view)
 {
-	view->mlx = mlx_init();
-	view->win = mlx_new_window(view->mlx, WIN_WIDTH, WIN_HEIGHT, path);
-	view->img = mlx_new_image(view->mlx, WIN_WIDTH, WIN_HEIGHT);
-	view->overlay = mlx_xpm_file_to_image(view->mlx, "xpm/overlay.xpm", WIN_WIDTH, WIN_HEIGHT);
+	mlx_key_hook(st.mlx.win, key_hook, &st);
+	mlx_loop(st.mlx.ptr);
+...
 }
 
 int	main(int argc, char **argv)
@@ -21,6 +19,7 @@ int	main(int argc, char **argv)
 	if (model->err)
 		return (write(2, "Parse error\n", 12));
 	init_view(&view, argv[1]);
-	mlx_key_hook(st.mlx.win, key_hook, &st);
-	mlx_loop(st.mlx.ptr);
+	if (mlx->err)
+		return (destroy_model(&model), write(2, "Mlx error\n", 10));
+	init_controller(&model, &view);
 }
