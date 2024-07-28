@@ -1,37 +1,45 @@
 #include "fdf.h"
 
-t_vmap	init_vmap(t_hmap hmap)
+static void	init_mat(t_model *model)
 {
-	t_vmap	res;
-
-	res.rows = hmap.rows;
-	res.cols = hmap.cols;
-	res.val = malloc(res.rows * res.cols * sizeof(*(res.val)));
-	return (res);
+	model->mat = mat_id();
 }
 
-void	update_vmap(t_state st)
+static void	compute_vmap(t_model *model)
 {
 	int		i;
 	int		j;
-	int		rows;
-	int		cols;
 	t_vec4	v;
 
 	i = 0;
-	rows = st.hmap.rows;
-	cols = st.hmap.cols;
-	while (i < rows)
+	while (i < model->rows)
 	{
 		j = 0;
-		while (j < cols)
+		while (j < model->cols)
 		{
-			v = (t_vec4){j - cols / 2.f, i - rows / 2.f, st.hmap.height[i * cols + j], 1};
-			st.vmap.val[i * cols + j] = mat4s_vec4_mult(st.mat, v);
+			v.e[0] = j - model->cols / 2.f;
+			v.e[1] = i - model->rows / 2.f;
+			v.e[2] = model->hmap[i * model->cols + j];
+			v.e[3] = 1.f;
+			model->vmap[i * model->cols + j] = mat4s_vec4_mult(model->mat, v);
 			j++;
 		}
 		i++;
 	}
+}
+
+void	init_model(t_model *model, const char *path)
+{
+	parse_hmap(model, path);
+	if (model->err)
+		return ;
+	init_mat(model);
+	compute_vmap(model);
+}
+
+void	update_model(t_model model)
+{
+	compute_vmap(model);
 }
 
 void	draw_fdf(t_state st)

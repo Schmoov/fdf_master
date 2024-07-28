@@ -28,13 +28,12 @@ t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v);
 
 //			PARSING
 enum e_error {
-	E_SUCCESS,
+	E_SUCCESS = 0,
 	E_NOMEM,
 	E_ACCESS,
 	E_EMPTY,
 }
-t_hmap	not_a_hmap(void);
-t_hmap	parse_hmap(char *path);
+void	parse_hmap(t_model *model, char *path);
 
 //			MLX
 # define WIN_WIDTH		1600
