@@ -17,9 +17,6 @@ typedef struct	s_mat4s{
 	float		val[4][4];
 }				t_mat4s;
 
-typedef struct	s_mat24{
-	float		val[2][4];
-}				t_mat24;
 t_mat4s	mat_nul(void);
 t_mat4s	mat_id(void);
 t_mat4s	mat_scale(float factor);
@@ -30,11 +27,12 @@ t_mat4s	mat4s_mult(t_mat4s left, t_mat4s right);
 t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v);
 
 //			PARSING
-typedef struct s_hmap{
-	int		cols;
-	int		rows;
-	float	*height;
-}			t_hmap;
+enum e_error {
+	E_SUCCESS,
+	E_NOMEM,
+	E_ACCESS,
+	E_EMPTY,
+}
 t_hmap	not_a_hmap(void);
 t_hmap	parse_hmap(char *path);
 
@@ -53,32 +51,27 @@ t_hmap	parse_hmap(char *path);
 # define KEY_RIGHT		65363
 
 # define COLOR_WHITE	0xffffff
-typedef struct s_vmap {
+
+typedef struct s_model {
 	int		cols;
 	int		rows;
-	t_vec4	*val;
-}			t_vmap;
-
-typedef struct s_mlx {
-	void	*ptr;
-	void	*win;
-}			t_mlx;
-
-typedef struct s_state {
-	t_mlx	mlx;
-	t_hmap	hmap;
+	float	*hmap;
 	t_mat4s	mat;
-	t_vmap	vmap;
+	t_vec4	*vmap;
+	e_error	err;
+}				t_model;
+typedef struct s_view {
+	void	*mlx;
+	void	*win;
 	void	*img;
 	void	*overlay;
-}				t_state;
+}				t_view;
 //			INPUT HANDLING
 int	key_hook(int keycode, void *param);
 //			RENDERING
 t_vmap	init_vmap(t_hmap hmap);
 void	update_vmap(t_state st);
-void	draw_segment(t_state st, t_vec4 start, t_vec4 end);
-void	draw_moire(t_mlx mlx, float nb_radius);
+void	draw_line_naive(void *img, t_vec4 start, t_vec4 end);
 void	draw_fdf(t_state st);
 
 #endif

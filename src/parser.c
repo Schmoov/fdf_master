@@ -1,11 +1,6 @@
 #include "fdf.h"
 
-t_hmap	not_a_hmap(void)
-{
-	return ((t_hmap){-1, -1, NULL});
-}
-
-static t_list	*list_lines(int fd)
+static t_list	*list_lines(int fd, e_error *err)
 {
 	char	*line;
 	t_list	*head;
@@ -13,57 +8,60 @@ static t_list	*list_lines(int fd)
 
 	line = get_next_line(fd);
 	if (!line)
-		return (NULL);
+		return (err = E_EMPTY, NULL);
 	tmp = ft_lstnew(line);
 	if (!tmp)
-		return (free(line), NULL);
+		return (free(line), err = E_NOMEM, NULL);
 	head = tmp;
 	line = get_next_line(fd);
 	while (line)
 	{
 		tmp->next = ft_lstnew(line);
 		if (!tmp->next)
-			return (ft_lstclear(&head, free), NULL);
+			return (ft_lstclear(&head, free), err = E_NOMEM, NULL);
 		tmp = tmp->next;
 		line = get_next_line(fd);
 	}
 	return (head);
 }
 
-static t_hmap	init_hmap(t_list *line_list)
+static void	alloc_model(t_model *model, t_list *line_list)
 {
-	t_hmap	map;
 	char	**split;
 
-	map.rows = ft_lstsize(line_list);
+	model.rows = ft_lstsize(line_list);
 	split = ft_split(line_list->content, ' ');
 	if (!split)
-		return (not_a_hmap());
-	map.cols = 0 ;
-	while (split[map.cols])
-		map.cols++;
+		return (model->err = E_NOMEM);
+	model->cols = 0;
+	while (split[model->cols])
+		model->cols++;
 	ft_free_split(split);
-	map.height = (float *)malloc(map.cols * map.rows * sizeof(int));
-	if (!map.height)
-		return (not_a_hmap());
+	model->hmap = (float *)malloc(model->cols * model->rows * sizeof(float));
+	if (!model->hmap)
+		return (model->err = E_NOMEM);
+	model->vmap = (t_vec4 *)malloc(model->cols * model->rows * sizeof(t_vec4));
+	if (!model->vmap)
+		return (free(model->hmap), model->err = E_NOMEM);
 	return (map);
 }
 
-void	fill_hmap(t_list *line_list, t_hmap *map)
+void	fill_hmap(t_model *model, t_list *line_list)
 {
-	int		i_map;
+	int		i_hmap;
 	int		i_split;
 	char	**split;
 
-	i_map = 0;
+	i_hmap = 0;
 	while (line_list)
 	{
 		i_split = 0;
 		split = ft_split(line_list->content, ' ');
 		if (!split)
 		{
-			free(map->height);
-			*map = not_a_hmap();
+			free(model->hmap);
+			free(model->vmap);
+			model->err = E_NOMEM;
 			return ;
 		}
 		while (split[i_split])
@@ -73,27 +71,34 @@ void	fill_hmap(t_list *line_list, t_hmap *map)
 	}
 }
 
-t_hmap	parse_hmap(char *path)
+static void	parse_hmap(t_model *model, const char *path)
 {
 	int		fd;
 	t_list	*line_list;
-	t_hmap	map;
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		return (not_a_hmap());
+		return (model->err = E_ACCESS);
 	line_list = list_lines(fd);
 	close(fd);
-	if (!line_list)
-		return (not_a_hmap());
-	map = init_hmap(line_list);
-	if (!map.height)
-		return (ft_lstclear(&line_list, free), not_a_hmap());
-	fill_hmap(line_list, &map);
+	if (model->err != E_SUCCESS)
+		return ;
+	alloc_model(model, line_list);
+	if (model->err != E_SUCCESS)
+		return (ft_lstclear(&line_list, free));
+	fill_hmap(model, line_list);
 	ft_lstclear(&line_list, free);
-	return (map);
+	return ;
 }
 
+void	init_model (t_model *model, const char *path)
+{
+	model->err = E_SUCCESS;
+	parse_hmap(model, path);
+	init_mat(model);
+	compute_vmap(model);
+}
+	
 /*
 int main()
 {
