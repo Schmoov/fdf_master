@@ -20,20 +20,24 @@ static bool	is_translation_key(int keycode)
 
 int	key_hook(int keycode, void *param)
 {
-	t_controller	*ctrl;
+	t_model	*model;
+	t_view	*view;
 
-	ctrl = param;
+	model = &(((t_controller *) param)->model);
+	view = &(((t_controller *) param)->view);
 	ft_printf("Pressed %c code is %d\n", keycode, keycode);
 	if (keycode == KEY_ESC)
 	{
-		mlx_destroy_window(ctrl->view.mlx, ctrl->view.win);
+		mlx_destroy_window(view->mlx, view->win);
 		exit(0);
 	}
-	else if (is_scaling_key(keycode))
-		handle_scaling_key(keycode, &(ctrl->model.mat_obj));
+	if (is_scaling_key(keycode))
+		handle_scaling_key(keycode, &(model->mat_obj));
 	else if (is_rotation_key(keycode))
-		handle_rotation_key(keycode, &(ctrl->model.mat_obj));
+		handle_rotation_key(keycode, &(model->mat_obj));
 	else if (is_translation_key(keycode))
-		handle_translation_key(keycode, &(ctrl->model.mat_cam));
+		handle_translation_key(keycode, &(model->mat_cam));
+	model_update_vmap(model);
+	controller_update_view(model, view);
 	return (0);
 }

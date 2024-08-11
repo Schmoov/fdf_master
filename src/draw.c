@@ -48,14 +48,12 @@ static void	draw_line_n(void *img, t_vec4 v1, t_vec4 v2)
 	return ;
 }
 
-void	draw_fdf(t_model *model, void *img)
+void	controller_draw_img(t_model *model, t_view *view)
 {
 	int		i;
 	int		j;
 	int		idx;
-	t_vec4	*vmap;
 
-	vmap = model->vmap;
 	i = 0;
 	while (i < model->rows)
 	{
@@ -64,9 +62,9 @@ void	draw_fdf(t_model *model, void *img)
 		{
 			idx = i * model->cols + j;
 			if (i)
-				draw_line_n(img, vmap[idx - model->cols], vmap[idx]);
+				draw_line_n(view->img, model->vmap[idx - model->cols], model->vmap[idx]);
 			if (j)
-				draw_line_n(img, vmap[idx - 1], vmap[idx]);
+				draw_line_n(view->img, model->vmap[idx - 1], model->vmap[idx]);
 			j++;
 		}
 		i++;

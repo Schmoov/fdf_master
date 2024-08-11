@@ -85,11 +85,13 @@ void	draw_line_naive(void *img, t_vec4 start, t_vec4 end);
 //			MODEL
 void	model_alloc_and_parse(t_model *model, char *path);
 void	model_init(t_model *model, char *path);
-void	model_update(t_model *model);
+void	model_update_vmap(t_model *model);
 void	model_destroy(t_model *model);
 
 //			VIEW
 void	view_init(t_view *view, char *path);
 void	view_destroy(t_view *view);
 
+
+void	controller_update_view(t_model *model, t_view *view);
 #endif
