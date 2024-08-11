@@ -70,7 +70,7 @@ static void	fill_hmap(t_model *model, t_list *line_list)
 	}
 }
 
-void	parse_hmap(t_model *model, const char *path)
+void	model_parse_and_alloc(t_model *model, const char *path)
 {
 	int		fd;
 	t_list	*line_list;

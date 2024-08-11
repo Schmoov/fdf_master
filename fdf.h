@@ -36,8 +36,7 @@ enum e_error {
 	E_MLXWIN,
 	E_NEWIMG,
 	E_OVERLAY,
-}
-void	parse_hmap(t_model *model, char *path);
+};
 
 //			MLX
 # define WIN_WIDTH		1600
@@ -59,23 +58,35 @@ typedef struct s_model {
 	int		cols;
 	int		rows;
 	float	*hmap;
-	t_mat4s	mat;
+	t_mat4s	mat_obj;
+	t_mat4s	mat_cam;
+	t_mat4s	mat_proj;
 	t_vec4	*vmap;
-	e_error	err;
+	enum e_error	err;
 }				t_model;
 typedef struct s_view {
 	void	*mlx;
 	void	*win;
 	void	*img;
 	void	*overlay;
-	e_error	err;
+	enum e_error	err;
 }				t_view;
 //			INPUT HANDLING
-int	key_hook(int keycode, void *param);
-//			RENDERING
-t_vmap	init_vmap(t_hmap hmap);
-void	update_vmap(t_state st);
+void	handle_scaling_key(int keycode, void *param);
+void	handle_rotation_key(int keycode, void *param);
+void	handle_translation_key(int keycode, void *param);
+void	handle_special_key(int keycode, void *param);
+int		key_hook(int keycode, void *param);
+//			DRAW
 void	draw_line_naive(void *img, t_vec4 start, t_vec4 end);
-void	draw_fdf(t_state st);
+//			MODEL
+void	parse_hmap(t_model *model, const char *path);
+void	model_init(t_model *model, const char *path);
+void	model_update(t_model *model);
+void	model_destroy(t_model *model);
+
+//			VIEW
+void	view_init(t_view *view, const char *path);
+void	view_destroy(t_view *view);
 
 #endif

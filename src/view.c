@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-void	init_view(t_view *view, const char *path)
+void	view_init(t_view *view, const char *path)
 {
 	view->mlx = mlx_init();
 	if (!view->mlx)
@@ -24,7 +24,7 @@ void	init_view(t_view *view, const char *path)
 	}
 }
 
-void	destroy_view(t_view *view)
+void	view_destroy(t_view *view)
 {
 	mlx_destroy_image(view->mlx, view->img);
 	mlx_destroy_image(view->mlx, view->overlay);

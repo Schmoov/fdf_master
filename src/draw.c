@@ -66,7 +66,7 @@ void	draw_fdf(t_model *model, void *img)
 			if (i)
 				draw_line_n(img, vmap[idx - model->cols], vmap[idx]);
 			if (j)
-				draw_segment(img, vmap[idx - 1], vmap[idx]);
+				draw_line_n(img, vmap[idx - 1], vmap[idx]);
 			j++;
 		}
 		i++;
