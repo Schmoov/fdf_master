@@ -72,8 +72,8 @@ typedef struct s_view {
 	enum e_error	err;
 }				t_view;
 typedef struct	s_controller {
-	t_model		*model;
-	t_view		*view;
+	t_model		model;
+	t_view		view;
 }				t_controller;
 //			INPUT HANDLING
 void	handle_scaling_key(int keycode, t_mat4s *mat_obj);
