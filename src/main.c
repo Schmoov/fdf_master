@@ -1,8 +1,21 @@
 #include "fdf.h"
 
+int	expose_hook(void *param)
+{
+	t_model	*model;
+	t_view	*view;
+
+	model = &(((t_controller *) param)->model);
+	view = &(((t_controller *) param)->view);
+	controller_draw_img(model, view);
+	controller_update_view(model, view);
+	return (0);
+}
+
 void	controller_init(t_controller *ctrl)
 {
-	mlx_key_hook(ctrl->view.mlx, key_hook, ctrl);
+	mlx_key_hook(ctrl->view.win, key_hook, ctrl);
+	mlx_expose_hook(ctrl->view.win, expose_hook, ctrl);
 	mlx_loop(ctrl->view.mlx);
 }
 

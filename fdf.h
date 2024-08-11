@@ -93,5 +93,6 @@ void	view_init(t_view *view, char *path);
 void	view_destroy(t_view *view);
 
 
+void	controller_draw_img(t_model *model, t_view *view);
 void	controller_update_view(t_model *model, t_view *view);
 #endif
