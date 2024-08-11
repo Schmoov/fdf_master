@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-static void	mat_init(t_model *model)
+static void	model_init_mat(t_model *model)
 {
 	//scaling
 	model->mat_obj = mat_id();
@@ -38,9 +38,9 @@ void	model_update_vmap(t_model *model)
 	}
 }
 
-void	model_init(t_model *model, const char *path)
+void	model_init(t_model *model, char *path)
 {
-	model_parse_map(model, path);
+	model_alloc_and_parse(model, path);
 	if (model->err)
 		return ;
 	model_init_mat(model);

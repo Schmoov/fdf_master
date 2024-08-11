@@ -71,22 +71,25 @@ typedef struct s_view {
 	void	*overlay;
 	enum e_error	err;
 }				t_view;
+typedef struct	s_controller {
+	t_model		*model;
+	t_view		*view;
+}				t_controller;
 //			INPUT HANDLING
-void	handle_scaling_key(int keycode, void *param);
-void	handle_rotation_key(int keycode, void *param);
-void	handle_translation_key(int keycode, void *param);
-void	handle_special_key(int keycode, void *param);
+void	handle_scaling_key(int keycode, t_mat4s *mat_obj);
+void	handle_rotation_key(int keycode, t_mat4s *mat_obj);
+void	handle_translation_key(int keycode, t_mat4s *mat_cam);
 int		key_hook(int keycode, void *param);
 //			DRAW
 void	draw_line_naive(void *img, t_vec4 start, t_vec4 end);
 //			MODEL
-void	parse_hmap(t_model *model, const char *path);
-void	model_init(t_model *model, const char *path);
+void	model_alloc_and_parse(t_model *model, char *path);
+void	model_init(t_model *model, char *path);
 void	model_update(t_model *model);
 void	model_destroy(t_model *model);
 
 //			VIEW
-void	view_init(t_view *view, const char *path);
+void	view_init(t_view *view, char *path);
 void	view_destroy(t_view *view);
 
 #endif

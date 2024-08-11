@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-static t_list	*list_lines(int fd, e_error *err)
+static t_list	*list_lines(int fd, enum e_error *err)
 {
 	char	*line;
 	t_list	*head;
@@ -8,17 +8,17 @@ static t_list	*list_lines(int fd, e_error *err)
 
 	line = get_next_line(fd);
 	if (!line)
-		return (err = E_EMPTY, NULL);
+		return (*err = E_EMPTY, NULL);
 	tmp = ft_lstnew(line);
 	if (!tmp)
-		return (free(line), err = E_NOMEM, NULL);
+		return (free(line), *err = E_NOMEM, NULL);
 	head = tmp;
 	line = get_next_line(fd);
 	while (line)
 	{
 		tmp->next = ft_lstnew(line);
 		if (!tmp->next)
-			return (ft_lstclear(&head, free), err = E_NOMEM, NULL);
+			return (ft_lstclear(&head, free), *err = E_NOMEM, NULL);
 		tmp = tmp->next;
 		line = get_next_line(fd);
 	}
@@ -29,20 +29,20 @@ static void	alloc_model(t_model *model, t_list *line_list)
 {
 	char	**split;
 
-	model.rows = ft_lstsize(line_list);
+	model->rows = ft_lstsize(line_list);
 	split = ft_split(line_list->content, ' ');
 	if (!split)
-		return (model->err = E_NOMEM);
+		return ((void)(model->err = E_NOMEM));
 	model->cols = 0;
 	while (split[model->cols])
 		model->cols++;
 	ft_free_split(split);
 	model->hmap = (float *)malloc(model->cols * model->rows * sizeof(float));
 	if (!model->hmap)
-		return (model->err = E_NOMEM);
+		return ((void)(model->err = E_NOMEM));
 	model->vmap = (t_vec4 *)malloc(model->cols * model->rows * sizeof(t_vec4));
 	if (!model->vmap)
-		return (free(model->hmap), model->err = E_NOMEM);
+		return (free(model->hmap), (void)(model->err = E_NOMEM));
 }
 
 static void	fill_hmap(t_model *model, t_list *line_list)
@@ -64,13 +64,13 @@ static void	fill_hmap(t_model *model, t_list *line_list)
 			return ;
 		}
 		while (split[i_split])
-			map->height[i_map++] = ft_atoi(split[i_split++]);
+			model->hmap[i_hmap++] = ft_atoi(split[i_split++]);
 		ft_free_split(split);
 		line_list = line_list->next;
 	}
 }
 
-void	model_parse_and_alloc(t_model *model, const char *path)
+void	model_alloc_and_parse(t_model *model, char *path)
 {
 	int		fd;
 	t_list	*line_list;
@@ -78,8 +78,8 @@ void	model_parse_and_alloc(t_model *model, const char *path)
 	model->err = E_SUCCESS;
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		return (model->err = E_ACCESS);
-	line_list = list_lines(fd);
+		return ((void)(model->err = E_ACCESS));
+	line_list = list_lines(fd, &(model->err));
 	close(fd);
 	if (model->err)
 		return ;

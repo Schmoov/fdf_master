@@ -18,31 +18,22 @@ static bool	is_translation_key(int keycode)
 			|| keycode == 'a' || keycode == 's' || keycode == 'd');
 }
 
-static bool	is_special_key(int keycode)
-{
-	return (keycode == KEY_ESC || keycode == 'c');
-}
-
 int	key_hook(int keycode, void *param)
 {
+	t_controller	*ctrl;
+
+	ctrl = param;
 	ft_printf("Pressed %c code is %d\n", keycode, keycode);
-	if (is_scaling_key(keycode))
-		handle_scaling_key(keycode, param);
-	else if (is_rotation_key(keycode))
-		handle_rotation_key(keycode, param);
-	else if (is_translation_key(keycode))
-		handle_translation_key(keycode, param);
-	else if (is_special_key(keycode))
-		handle_special_key(keycode, param);
-	/*
-	if (keycode == 'x')
+	if (keycode == KEY_ESC)
 	{
-		t_state	*st = param;
-		int w, h;
-		void *img = mlx_xpm_file_to_image(st->mlx.ptr, "xpm/arrow.xpm", &w, &h);
-		ft_printf("%d, %d\n", w, h);
-		mlx_put_image_to_window(st->mlx.ptr, st->mlx.win, img, 100, 100);
+		mlx_destroy_window(ctrl->view->mlx, ctrl->view->win);
+		exit(0);
 	}
-	*/
+	else if (is_scaling_key(keycode))
+		handle_scaling_key(keycode, &(ctrl->model->mat_obj));
+	else if (is_rotation_key(keycode))
+		handle_rotation_key(keycode, &(ctrl->model->mat_obj));
+	else if (is_translation_key(keycode))
+		handle_translation_key(keycode, &(ctrl->model->mat_cam));
 	return (0);
 }
