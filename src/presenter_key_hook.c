@@ -25,10 +25,10 @@ int	key_hook(int keycode, void *param)
 
 	model = &(((t_presenter *) param)->model);
 	view = &(((t_presenter *) param)->view);
-	ft_printf("Pressed %c code is %d\n", keycode, keycode);
+//	ft_printf("Pressed %c code is %d\n", keycode, keycode);
 	if (keycode == KEY_ESC)
 	{
-		mlx_destroy_window(view->mlx, view->win);
+		presenter_destroy(model, view);
 		exit(0);
 	}
 	if (is_scaling_key(keycode))

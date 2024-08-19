@@ -20,6 +20,7 @@ typedef struct	s_mat4s{
 
 t_mat4s	mat_nul(void);
 t_mat4s	mat_id(void);
+t_mat4s	mat_proj_parallel(void);
 t_mat4s	mat_scale(float factor);
 t_mat4s	mat_scale_axis(int axis, float factor);
 t_mat4s	mat_rot(int axis, float angle);
@@ -98,4 +99,5 @@ void	view_destroy(t_view *view);
 
 void	presenter_init(t_presenter *pres, char *path);
 void	presenter_update(t_model *model, t_view *view);
+void	presenter_destroy(t_model *model, t_view *view);
 #endif

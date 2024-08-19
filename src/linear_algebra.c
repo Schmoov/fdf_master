@@ -68,6 +68,15 @@ t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v)
 	return (res);
 }
 
+t_mat4s	mat_proj_parallel(void)
+{
+	t_mat4s	res;
+	
+	res = mat_id();
+	res.val[2][2] = 0;
+	res.val[3][3] = 0;
+	return (res);
+}
 
 void	assign_other_axis(int axis, int *ax1, int *ax2)
 {

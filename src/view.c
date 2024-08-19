@@ -53,6 +53,8 @@ void	view_update(t_view *view, t_vec4 *vmap, int cols, int rows)
 void	view_destroy(t_view *view)
 {
 	mlx_destroy_image(view->mlx, view->img);
-	mlx_destroy_image(view->mlx, view->overlay);
+	//mlx_destroy_image(view->mlx, view->overlay);
 	mlx_destroy_window(view->mlx, view->win);
+	mlx_destroy_display(view->mlx);
+	free(view->mlx);
 }

@@ -19,3 +19,8 @@ void	presenter_init(t_presenter *pres, char *path)
 	mlx_loop(pres->view.mlx);
 }
 
+void	presenter_destroy(t_model *model, t_view *view)
+{
+	model_destroy(model);
+	view_destroy(view);
+}
