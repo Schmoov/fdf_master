@@ -48,23 +48,23 @@ static void	draw_line_n(void *img, t_vec4 v1, t_vec4 v2)
 	return ;
 }
 
-void	controller_draw_img(t_model *model, t_view *view)
+void	view_draw_img(t_view *view, t_vec4 *vmap, int cols, int rows)
 {
 	int		i;
 	int		j;
 	int		idx;
 
 	i = 0;
-	while (i < model->rows)
+	while (i < rows)
 	{
 		j = 0;
-		while (j < model->cols)
+		while (j < cols)
 		{
-			idx = i * model->cols + j;
+			idx = i * cols + j;
 			if (i)
-				draw_line_n(view->img, model->vmap[idx - model->cols], model->vmap[idx]);
+				draw_line_n(view->img, vmap[idx - cols], vmap[idx]);
 			if (j)
-				draw_line_n(view->img, model->vmap[idx - 1], model->vmap[idx]);
+				draw_line_n(view->img, vmap[idx - 1], vmap[idx]);
 			j++;
 		}
 		i++;

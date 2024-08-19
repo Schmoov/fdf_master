@@ -1,6 +1,7 @@
 #ifndef FDF_H
 # define FDF_H
 # include <mlx.h>
+# include <stdio.h>
 # include <math.h>
 # include "libft/libft.h"
 
@@ -71,10 +72,10 @@ typedef struct s_view {
 	void	*overlay;
 	enum e_error	err;
 }				t_view;
-typedef struct	s_controller {
+typedef struct	s_presenter {
 	t_model		model;
 	t_view		view;
-}				t_controller;
+}				t_presenter;
 //			INPUT HANDLING
 void	handle_scaling_key(int keycode, t_mat4s *mat_obj);
 void	handle_rotation_key(int keycode, t_mat4s *mat_obj);
@@ -90,9 +91,11 @@ void	model_destroy(t_model *model);
 
 //			VIEW
 void	view_init(t_view *view, char *path);
+void	view_update(t_view *view, t_vec4 *vmap, int cols, int rows);
+void	view_draw_img(t_view *view, t_vec4 *vmap, int cols, int rows);
 void	view_destroy(t_view *view);
 
 
-void	controller_draw_img(t_model *model, t_view *view);
-void	controller_update_view(t_model *model, t_view *view);
+void	presenter_init(t_presenter *pres, char *path);
+void	presenter_update(t_model *model, t_view *view);
 #endif

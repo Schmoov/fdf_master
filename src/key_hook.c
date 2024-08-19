@@ -23,8 +23,8 @@ int	key_hook(int keycode, void *param)
 	t_model	*model;
 	t_view	*view;
 
-	model = &(((t_controller *) param)->model);
-	view = &(((t_controller *) param)->view);
+	model = &(((t_presenter *) param)->model);
+	view = &(((t_presenter *) param)->view);
 	ft_printf("Pressed %c code is %d\n", keycode, keycode);
 	if (keycode == KEY_ESC)
 	{
@@ -37,7 +37,6 @@ int	key_hook(int keycode, void *param)
 		handle_rotation_key(keycode, &(model->mat_obj));
 	else if (is_translation_key(keycode))
 		handle_translation_key(keycode, &(model->mat_cam));
-	model_update_vmap(model);
-	controller_update_view(model, view);
+	presenter_update(model, view);
 	return (0);
 }

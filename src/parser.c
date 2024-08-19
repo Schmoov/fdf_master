@@ -75,7 +75,6 @@ void	model_alloc_and_parse(t_model *model, char *path)
 	int		fd;
 	t_list	*line_list;
 
-	model->err = E_SUCCESS;
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return ((void)(model->err = E_ACCESS));

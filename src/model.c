@@ -20,7 +20,9 @@ void	model_update_vmap(t_model *model)
 	t_vec4	v;
 	t_mat4s	mat;
 
-	mat = mat4s_mult(mat4s_mult(model->mat_obj, model->mat_cam), model->mat_proj);
+	mat = mat4s_mult(mat4s_mult(model->mat_proj, model->mat_cam), model->mat_obj);
+	for (int i = 0; i < 4; i++)
+		printf("%f %f %f %f\n", mat.val[i][0], mat.val[i][1], mat.val[i][2], mat.val[i][3]);
 	i = 0;
 	while (i < model->rows)
 	{
@@ -40,6 +42,7 @@ void	model_update_vmap(t_model *model)
 
 void	model_init(t_model *model, char *path)
 {
+	model->err = E_SUCCESS;
 	model_alloc_and_parse(model, path);
 	if (model->err)
 		return ;
