@@ -10,8 +10,6 @@ static void	img_pixel_put(void *img, int x, int y, int z, int color)
 
 	if (z >= 0)
 		return ;
-//	x = WIN_WIDTH / 2.f+(x - WIN_WIDTH / 2.f)/z;
-//	y = WIN_HEIGHT / 2.f+(y - WIN_HEIGHT / 2.f)/z;
 	line = (int *)mlx_get_data_addr(img, &bpp, &size, &endian);
 	//ft_printf("bbp %d, sizL %d, end %d\n", bpp, size, endian);
 	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)

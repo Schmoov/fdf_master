@@ -8,10 +8,41 @@ static void	model_init_mat(t_model *model)
 	model->mat_obj = mat_id();
 	model->mat_obj = mat4s_mult(mat_rot(2, M_PI / 4), model->mat_obj);
 	model->mat_obj = mat4s_mult(mat_rot(0, angle), model->mat_obj);
+	model->mat_obj = mat_id();
 	model->mat_cam = mat_trans(1, WIN_HEIGHT / 2);
 	model->mat_cam = mat4s_mult(mat_trans(0, WIN_WIDTH / 2), model->mat_cam);
+	model->mat_cam = mat4s_mult(mat_trans(2, -1000.f), model->mat_cam);
 	//model->mat_proj = mat_proj_parallel();
+	model->mat_proj = mat_nul();
+	model->mat_proj.val[0][0] = 1.f / tan(M_PI/4);
+	model->mat_proj.val[1][1] = 1.f / tan(M_PI/4);
+	model->mat_proj.val[2][2] = -10.f/9.f;
+	model->mat_proj.val[2][3] = -1.f;
+	model->mat_proj.val[3][2] = 10.f/9.f;
 	model->mat_proj = mat_id();
+}
+
+void	model_homogenize_vmap(t_model *model)
+{
+	int		i;
+	int		j;
+	t_vec4	*v;
+
+	i = 0;
+	while (i < model->rows)
+	{
+		j = 0;
+		while (j < model->cols)
+		{
+			v = &(model->vmap[i * model->cols + j]);
+			v->e[0] *=- 1000.f/v->e[2];
+			v->e[1] *=- 1000.f/v->e[2];
+			//v->e[2] /= v->e[3];
+			v->e[3] = 1.f;
+			j++;
+		}
+		i++;
+	}
 }
 
 void	model_update_vmap(t_model *model)
@@ -38,6 +69,7 @@ void	model_update_vmap(t_model *model)
 		}
 		i++;
 	}
+	model_homogenize_vmap(model);
 }
 
 void	model_init(t_model *model, char *path)
