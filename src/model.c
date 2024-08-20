@@ -10,7 +10,8 @@ static void	model_init_mat(t_model *model)
 	model->mat_obj = mat4s_mult(mat_rot(0, angle), model->mat_obj);
 	model->mat_cam = mat_trans(1, WIN_HEIGHT / 2);
 	model->mat_cam = mat4s_mult(mat_trans(0, WIN_WIDTH / 2), model->mat_cam);
-	model->mat_proj = mat_proj_parallel();
+	//model->mat_proj = mat_proj_parallel();
+	model->mat_proj = mat_id();
 }
 
 void	model_update_vmap(t_model *model)
