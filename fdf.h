@@ -59,6 +59,8 @@ enum e_error {
 typedef struct s_model {
 	int		cols;
 	int		rows;
+	int		hmax;
+	int		hmin;
 	float	*hmap;
 	t_mat4s	mat_obj;
 	t_mat4s	mat_cam;

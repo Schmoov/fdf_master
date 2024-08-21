@@ -70,6 +70,24 @@ static void	fill_hmap(t_model *model, t_list *line_list)
 	}
 }
 
+static void get_extremum_height(t_model	*model)
+{
+	int	i;
+
+	model->hmax = INT_MIN;
+	model->hmin = INT_MAX;
+	i = 0;
+	while (i < model->rows * model->cols)
+	{
+		if (model->hmap[i] > model->hmax)
+			model->hmax = model->hmap[i];
+		if (model->hmap[i] < model->hmin)
+			model->hmin = model->hmap[i];
+		i++;
+	}
+	ft_printf("%d %d\n", model->hmax, model->hmin);
+}
+
 void	model_alloc_and_parse(t_model *model, char *path)
 {
 	int		fd;
@@ -87,5 +105,6 @@ void	model_alloc_and_parse(t_model *model, char *path)
 		return (ft_lstclear(&line_list, free));
 	fill_hmap(model, line_list);
 	ft_lstclear(&line_list, free);
+	get_extremum_height(model);
 	return ;
 }

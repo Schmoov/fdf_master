@@ -1,18 +1,44 @@
 #include "fdf.h"
+#include <stdio.h>
+
+
 
 static void	model_init_mat(t_model *model)
 {
 	float	angle;
 
+	float ratio = fmin((WIN_WIDTH - 1.f)/(model->cols -1.f), (WIN_HEIGHT - 1.f)/(model->rows - 1.f));
+	model->mat_obj = mat_scale(ratio);
+	printf("%f\n\n", ratio);
+	//model->mat_obj = mat_trans(0, -model->cols/2.f);
+	//model->mat_obj = mat4s_mult(mat_trans(1, -model->rows/2.f), model->mat_obj);
+//	model->mat_obj = mat4s_mult(mat_trans(2, -(model->hmax - model->hmin)/2.f), model->mat_obj);
 	angle = asin(tan(M_PI / 6));
-	model->mat_obj = mat_id();
+//	model->mat_obj = mat4s_mult(mat_rot(2, M_PI / 4), model->mat_obj);
+//	model->mat_obj = mat4s_mult(mat_rot(0, angle), model->mat_obj);
+	//model->mat_obj = mat4s_mult(mat_trans(0, WIN_WIDTH/2.f), model->mat_obj);
+//	model->mat_obj = mat4s_mult(mat_trans(1, WIN_HEIGHT/2.f), model->mat_obj);
+
+	model->mat_cam = mat_id();
+	model->mat_proj = mat_id();
+}
+
+/*
+static void	model_init_mat(t_model *model)
+{
+	float	angle;
+
+	angle = asin(tan(M_PI / 6));
 	model->mat_obj = mat4s_mult(mat_rot(2, M_PI / 4), model->mat_obj);
 	model->mat_obj = mat4s_mult(mat_rot(0, angle), model->mat_obj);
 	model->mat_obj = mat_id();
+	model->mat_obj = mat_trans(0, -model->cols/2.f);
+	model->mat_obj = mat_trans(0, -model->rows/2.f);
 	model->mat_cam = mat_trans(1, WIN_HEIGHT / 2);
 	model->mat_cam = mat4s_mult(mat_trans(0, WIN_WIDTH / 2), model->mat_cam);
 	model->mat_cam = mat4s_mult(mat_trans(2, -1000.f), model->mat_cam);
 	//model->mat_proj = mat_proj_parallel();
+	model->mat_cam = mat_trans(2, -1000.f);
 	model->mat_proj = mat_nul();
 	model->mat_proj.val[0][0] = 1.f / tan(M_PI/4);
 	model->mat_proj.val[1][1] = 1.f / tan(M_PI/4);
@@ -21,7 +47,7 @@ static void	model_init_mat(t_model *model)
 	model->mat_proj.val[3][2] = 10.f/9.f;
 	model->mat_proj = mat_id();
 }
-
+*/
 void	model_homogenize_vmap(t_model *model)
 {
 	int		i;
@@ -60,8 +86,8 @@ void	model_update_vmap(t_model *model)
 		j = 0;
 		while (j < model->cols)
 		{
-			v.e[0] = j - model->cols / 2.f + .5f;
-			v.e[1] = i - model->rows / 2.f + .5f;
+			v.e[0] = j;
+			v.e[1] = i;
 			v.e[2] = model->hmap[i * model->cols + j];
 			v.e[3] = 1.f;
 			model->vmap[i * model->cols + j] = mat4s_vec4_mult(mat, v);
@@ -69,7 +95,7 @@ void	model_update_vmap(t_model *model)
 		}
 		i++;
 	}
-	model_homogenize_vmap(model);
+//	model_homogenize_vmap(model);
 }
 
 void	model_init(t_model *model, char *path)
