@@ -77,7 +77,7 @@ void	model_update_vmap(t_model *model)
 			v.e[0] = j - model->cols / 2.f;
 			v.e[1] = i - model->rows / 2.f;
 			v.e[2] = model->hmap[i * model->cols + j] - 2 * model->hmax + model->hmin;
-			model_perspective_vertex(model, &v);
+//			model_perspective_vertex(model, &v);
 			v.e[3] = 1.f;
 			model->vmap[i * model->cols + j] = mat4s_vec4_mult(mat, v);
 			j++;

@@ -6,10 +6,6 @@
 # include "libft/libft.h"
 
 //			LINEAR ALGEBRA
-typedef struct	s_vec2{
-	float		e[2];
-}				t_vec2;
-
 typedef struct	s_vec4{
 	float		e[4];
 }				t_vec4;
@@ -27,18 +23,6 @@ t_mat4s	mat_rot(int axis, float angle);
 t_mat4s	mat_trans(int axis, float mag);
 t_mat4s	mat4s_mult(t_mat4s left, t_mat4s right);
 t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v);
-
-//			PARSING
-enum e_error {
-	E_SUCCESS = 0,
-	E_NOMEM,
-	E_ACCESS,
-	E_EMPTY,
-	E_MLXPTR,
-	E_MLXWIN,
-	E_NEWIMG,
-	E_OVERLAY,
-};
 
 //			MLX
 # define WIN_WIDTH		1600
@@ -61,24 +45,26 @@ typedef struct s_model {
 	int		rows;
 	int		hmax;
 	int		hmin;
-	float	*hmap;
+	float	*height;
+	int		*color;
+	t_vec4	*vertex;
 	t_mat4s	mat_obj;
 	t_mat4s	mat_cam;
 	t_mat4s	mat_proj;
-	t_vec4	*vmap;
-	enum e_error	err;
 }				t_model;
+
 typedef struct s_view {
 	void	*mlx;
 	void	*win;
 	void	*img;
 	void	*overlay;
-	enum e_error	err;
 }				t_view;
+
 typedef struct	s_presenter {
 	t_model		model;
 	t_view		view;
 }				t_presenter;
+
 //			INPUT HANDLING
 void	handle_scaling_key(int keycode, t_mat4s *mat_obj);
 void	handle_rotation_key(int keycode, t_mat4s *mat_obj);
