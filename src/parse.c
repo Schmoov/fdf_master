@@ -44,32 +44,39 @@ static void	parse_alloc(t_model *model, t_list *line_list)
 	model->vertex = (t_vec4 *)malloc(model->cols * model->rows * sizeof(t_vec4));
 	if (!model->vertex)
 		return ((void)free(model->height));
+	model->color = (int *)malloc(model->cols * model->rows * sizeof(int));
+	if (!model->color)
+		return ((void)free(model->height), free(model->color));
 }
 
-static void	parse_height(t_model *model, t_list *line_list)
+static void	parse_map(t_model *model, t_list *line_list)
 {
-	int		i_height;
-	int		i_split;
+	int		i_h;
+	int		i_s;
 	char	**split;
+	char	*endptr;
 
-	i_height = 0;
+	i_h = 0;
 	while (line_list)
 	{
-		i_split = 0;
+		i_s = 0;
 		split = ft_split(line_list->content, ' ');
 		if (!split)
+			return ((void)model_destroy(model));
+		while (split[i_s])
 		{
-			free(model->height);
-			free(model->vertex);
-			return ;
+			model->height[i_h] = ft_strtoll(split[i_s++], &endptr, NULL));
+			if (*endptr)
+				model->color[i_h++] = ft_strtoll(endptr + 1, NULL, NULL);
+			else
+				model->color[i_h++] = COLOR_WHITE;
 		}
-		while (split[i_split])
-			model->height[i_height++] = ft_atoi(split[i_split++]);
 		ft_free_split(split);
 		line_list = line_list->next;
 	}
 }
 
+//should become "normalise"
 static void get_extremum_height(t_model	*model)
 {
 	int	i;
@@ -101,7 +108,7 @@ void	parse_fdf(t_model *model, char *path)
 	if (!line_list)
 		return ;
 	parse_alloc(model, line_list);
-	if (!model.vertex)
+	if (!model.color)
 		return ((void)ft_lstclear(&line_list, free));
 	parse_height(model, line_list);
 	ft_lstclear(&line_list, free);
