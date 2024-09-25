@@ -63,8 +63,8 @@ typedef struct s_view {
 }				t_view;
 
 typedef struct	s_presenter {
-	t_model		model;
-	t_view		view;
+	t_model		*model;
+	t_view		*view;
 }				t_presenter;
 
 //			INPUT HANDLING
@@ -72,12 +72,10 @@ void	handle_scaling_key(int keycode, t_mat4s *mat_obj);
 void	handle_rotation_key(int keycode, t_mat4s *mat_obj);
 void	handle_translation_key(int keycode, t_mat4s *mat_cam);
 int		key_hook(int keycode, void *param);
-//			DRAW
-void	draw_line_naive(void *img, t_vec4 start, t_vec4 end);
 //			MODEL
-void	model_alloc_and_parse(t_model *model, char *path);
+void	parse_fdf(t_model *model, char *path);
 void	model_init(t_model *model, char *path);
-void	model_update_vmap(t_model *model);
+void	model_vertex_shader(t_model *m);
 void	model_destroy(t_model *model);
 
 //			VIEW

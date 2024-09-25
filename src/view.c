@@ -19,7 +19,7 @@ void	view_init(t_view *view, char *name)
 	}
 }
 
-void view_clear_img(t_view *view)
+static void view_clear_img(t_view *view)
 {
 	mlx_destroy_image(view->mlx, view->img);
 	view->img = mlx_new_image(view->mlx, WIN_WIDTH, WIN_HEIGHT);

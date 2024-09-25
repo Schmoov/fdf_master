@@ -65,7 +65,7 @@ static void	parse_map(t_model *model, t_list *line_list)
 			return ((void)model_destroy(model));
 		while (split[i_s])
 		{
-			model->height[i_h] = ft_strtoll(split[i_s++], &endptr, NULL));
+			model->height[i_h] = ft_strtoll(split[i_s++], &endptr, NULL);
 			if (*endptr)
 				model->color[i_h++] = ft_strtoll(endptr + 1, NULL, NULL);
 			else
@@ -110,7 +110,7 @@ void	parse_fdf(t_model *model, char *path)
 	parse_alloc(model, line_list);
 	if (!model->color)
 		return ((void)ft_lstclear(&line_list, free));
-	parse_height(model, line_list);
+	parse_map(model, line_list);
 	ft_lstclear(&line_list, free);
 	get_extremum_height(model);
 }
