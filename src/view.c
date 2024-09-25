@@ -2,8 +2,6 @@
 
 void	view_init(t_view *view, char *name)
 {
-	int	osef;
-
 	view->img = NULL;
 	view->mlx = mlx_init();
 	if (!view->mlx)
@@ -26,7 +24,7 @@ static void view_clear_img(t_view *view)
 	if (!view->img)
 	{
 		mlx_destroy_window(view->mlx, view->win);
-		return ((void)(view->err = E_NEWIMG));
+		return ;
 	}
 }
 
@@ -39,14 +37,12 @@ void	view_update(t_view *view, t_vec4 *vmap, int cols, int rows)
 	view_draw_img(view, vmap, cols, rows);
 	img_is_blank = false;
 	mlx_clear_window(view->mlx, view->win);
-	mlx_put_image_to_window(view->mlx, view->win, view->overlay, 0, 0);
 	mlx_put_image_to_window(view->mlx, view->win, view->img, 0, 0);
 }
 
 void	view_destroy(t_view *view)
 {
 	mlx_destroy_image(view->mlx, view->img);
-	mlx_destroy_image(view->mlx, view->overlay);
 	mlx_destroy_window(view->mlx, view->win);
 	mlx_destroy_display(view->mlx);
 	free(view->mlx);

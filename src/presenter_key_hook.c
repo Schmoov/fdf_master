@@ -23,8 +23,8 @@ int	key_hook(int keycode, void *param)
 	t_model	*model;
 	t_view	*view;
 
-	model = &(((t_presenter *) param)->model);
-	view = &(((t_presenter *) param)->view);
+	model = ((t_presenter *)param)->model;
+	view = ((t_presenter *)param)->view;
 //	ft_printf("Pressed %c code is %d\n", keycode, keycode);
 	if (keycode == KEY_ESC)
 	{
