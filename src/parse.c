@@ -29,7 +29,7 @@ static void	parse_alloc(t_model *model, t_list *line_list)
 {
 	char	**split;
 
-	model->vertex = NULL;
+	model->color = NULL;
 	model->rows = ft_lstsize(line_list);
 	split = ft_split(line_list->content, ' ');
 	if (!split)
@@ -108,7 +108,7 @@ void	parse_fdf(t_model *model, char *path)
 	if (!line_list)
 		return ;
 	parse_alloc(model, line_list);
-	if (!model.color)
+	if (!model->color)
 		return ((void)ft_lstclear(&line_list, free));
 	parse_height(model, line_list);
 	ft_lstclear(&line_list, free);

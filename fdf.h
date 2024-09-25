@@ -28,6 +28,9 @@ t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v);
 # define WIN_WIDTH		1600
 # define WIN_HEIGHT		900
 
+
+# define COLOR_WHITE	0xffffff
+
 # define KEY_ESC		65307
 # define KEY_PLUS		65451
 # define KEY_MINUS		65453
@@ -37,27 +40,26 @@ t_vec4	mat4s_vec4_mult(t_mat4s mat, t_vec4 v);
 # define KEY_DOWN		65364
 # define KEY_UP			65362
 # define KEY_RIGHT		65363
-
-# define COLOR_WHITE	0xffffff
-
 typedef struct s_model {
 	int		cols;
 	int		rows;
 	int		hmax;
 	int		hmin;
 	float	*height;
+
 	int		*color;
+
 	t_vec4	*vertex;
 	t_mat4s	mat_obj;
-	t_mat4s	mat_cam;
 	t_mat4s	mat_proj;
+	t_mat4s	mat_cam;
+	t_mat4s	mat_screen;
 }				t_model;
 
 typedef struct s_view {
 	void	*mlx;
 	void	*win;
 	void	*img;
-	void	*overlay;
 }				t_view;
 
 typedef struct	s_presenter {
