@@ -16,7 +16,6 @@ typedef struct	s_mat4s{
 
 t_mat4s	mat_nul(void);
 t_mat4s	mat_id(void);
-t_mat4s	mat_proj_parallel(void);
 t_mat4s	mat_scale(float factor);
 t_mat4s	mat_scale_axis(int axis, float factor);
 t_mat4s	mat_rot(int axis, float angle);
@@ -44,16 +43,13 @@ typedef struct s_model {
 	int		cols;
 	int		rows;
 	int		hmax;
-	int		hmin;
-	float	*height;
 
-	int		*color;
-
-	t_vec4	*vertex;
 	t_mat4s	mat_obj;
-	t_mat4s	mat_proj;
 	t_mat4s	mat_cam;
-	t_mat4s	mat_screen;
+	
+	float	*height;
+	int		*color;
+	t_vec4	*vertex;
 }				t_model;
 
 typedef struct s_view {

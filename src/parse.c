@@ -82,17 +82,13 @@ static void get_extremum_height(t_model	*model)
 	int	i;
 
 	model->hmax = INT_MIN;
-	model->hmin = INT_MAX;
 	i = 0;
 	while (i < model->rows * model->cols)
 	{
 		if (model->height[i] > model->hmax)
 			model->hmax = model->height[i];
-		if (model->height[i] < model->hmin)
-			model->hmin = model->height[i];
 		i++;
 	}
-	ft_printf("%d %d\n", model->hmax, model->hmin);
 }
 
 void	parse_fdf(t_model *model, char *path)
