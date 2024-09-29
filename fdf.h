@@ -80,12 +80,12 @@ void	model_destroy(t_model *model);
 
 //			VIEW
 void	view_init(t_view *view, char *path);
-void	view_update(t_view *view, t_vec4 *vmap, int cols, int rows);
-void	view_draw_img(t_view *view, t_vec4 *vmap, int cols, int rows);
+void	view_update(t_presenter *pres);
+void	view_draw_img(t_presenter *pres);
 void	view_destroy(t_view *view);
 
 
 void	presenter_init(t_presenter *pres, char *path);
-void	presenter_update(t_model *model, t_view *view);
-void	presenter_destroy(t_model *model, t_view *view);
+void	presenter_update(t_presenter *pres);
+void	presenter_destroy(t_presenter *pres);
 #endif

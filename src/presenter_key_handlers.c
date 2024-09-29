@@ -5,9 +5,9 @@
 void	handle_scaling_key(int keycode, t_mat4s *mat)
 {
 	if (keycode == KEY_PLUS)
-		*mat = mat4s_mult(mat_scale(1.5f), *mat);
+		*mat = mat4s_mult(*mat, mat_scale(1.5f));
 	else if (keycode == KEY_MINUS)
-		*mat = mat4s_mult(mat_scale(2.f/3), *mat);
+		*mat = mat4s_mult(*mat, mat_scale(2.f/3));
 	else if (keycode == KEY_MULT)
 		*mat = mat4s_mult(*mat, mat_scale_axis(2, 1.5f));
 	else if (keycode == KEY_DIV)

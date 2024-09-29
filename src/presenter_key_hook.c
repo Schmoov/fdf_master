@@ -28,7 +28,7 @@ int	key_hook(int keycode, void *param)
 //	ft_printf("Pressed %c code is %d\n", keycode, keycode);
 	if (keycode == KEY_ESC)
 	{
-		presenter_destroy(model, view);
+		presenter_destroy(param);
 		exit(0);
 	}
 	if (is_scaling_key(keycode))
@@ -37,6 +37,6 @@ int	key_hook(int keycode, void *param)
 		handle_rotation_key(keycode, &(model->mat_obj));
 	else if (is_translation_key(keycode))
 		handle_translation_key(keycode, &(model->mat_cam));
-	presenter_update(model, view);
+	presenter_update(param);
 	return (0);
 }

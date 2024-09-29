@@ -28,16 +28,16 @@ static void view_clear_img(t_view *view)
 	}
 }
 
-void	view_update(t_view *view, t_vec4 *vmap, int cols, int rows)
+void	view_update(t_presenter *p)
 {
 	static bool	img_is_blank = true;
 
 	if (!img_is_blank)
-		view_clear_img(view);
-	view_draw_img(view, vmap, cols, rows);
+		view_clear_img(p->view);
+	view_draw_img(p);
 	img_is_blank = false;
-	mlx_clear_window(view->mlx, view->win);
-	mlx_put_image_to_window(view->mlx, view->win, view->img, 0, 0);
+	mlx_clear_window(p->view->mlx, p->view->win);
+	mlx_put_image_to_window(p->view->mlx, p->view->win, p->view->img, 0, 0);
 }
 
 void	view_destroy(t_view *view)

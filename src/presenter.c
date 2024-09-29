@@ -1,11 +1,5 @@
 #include "fdf.h"
 
-void	presenter_update(t_model *model, t_view *view)
-{
-	model_vertex_shader(model);
-	view_update(view, model->vertex, model->cols, model->rows);
-}
-
 void	presenter_init(t_presenter *pres, char *path)
 {
 	model_init(pres->model, path);
@@ -19,8 +13,14 @@ void	presenter_init(t_presenter *pres, char *path)
 	mlx_loop(pres->view->mlx);
 }
 
-void	presenter_destroy(t_model *model, t_view *view)
+void	presenter_update(t_presenter *pres)
 {
-	model_destroy(model);
-	view_destroy(view);
+	model_vertex_shader(pres->model);
+	view_update(pres);
+}
+
+void	presenter_destroy(t_presenter *pres)
+{
+	model_destroy(pres->model);
+	view_destroy(pres->view);
 }

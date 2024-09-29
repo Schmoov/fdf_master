@@ -17,8 +17,8 @@ static void	model_default_iso(t_model *m)
 
 	angle = asin(tan(M_PI / 6));
 	model_default_mat(m);
-	m->mat_cam = mat4s_mult(mat_rot(2, M_PI / 4), m->mat_cam);
-	m->mat_cam = mat4s_mult(mat_rot(0, angle), m->mat_cam);
+	m->mat_obj = mat4s_mult(mat_rot(2, M_PI / 4), m->mat_obj);
+	m->mat_obj = mat4s_mult(mat_rot(0, angle), m->mat_obj);
 }
 
 void	model_vertex_shader(t_model *m)
