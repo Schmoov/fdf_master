@@ -77,7 +77,7 @@ void	model_destroy(t_model *model);
 //			VIEW
 void	view_init(t_view *view, char *path);
 void	view_update(t_presenter *pres);
-void	view_draw_img(t_presenter *pres);
+void	draw_img(t_presenter *pres);
 void	view_destroy(t_view *view);
 
 

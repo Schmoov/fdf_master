@@ -34,7 +34,7 @@ void	view_update(t_presenter *p)
 
 	if (!img_is_blank)
 		view_clear_img(p->view);
-	view_draw_img(p);
+	draw_img(p);
 	img_is_blank = false;
 	mlx_clear_window(p->view->mlx, p->view->win);
 	mlx_put_image_to_window(p->view->mlx, p->view->win, p->view->img, 0, 0);
