@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   view.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/01 20:47:20 by parden            #+#    #+#             */
+/*   Updated: 2024/10/01 20:47:24 by parden           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	view_init(t_view *view, char *name)
@@ -17,7 +29,7 @@ void	view_init(t_view *view, char *name)
 	}
 }
 
-static void view_clear_img(t_view *view)
+static void	view_clear_img(t_view *view)
 {
 	mlx_destroy_image(view->mlx, view->img);
 	view->img = mlx_new_image(view->mlx, WIN_WIDTH, WIN_HEIGHT);

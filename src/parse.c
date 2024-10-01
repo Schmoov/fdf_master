@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/01 20:47:20 by parden            #+#    #+#             */
+/*   Updated: 2024/10/01 20:53:54 by parden           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 static t_list	*list_lines(int fd)
@@ -41,7 +53,8 @@ static void	parse_alloc(t_model *model, t_list *line_list)
 	model->height = (float *)malloc(model->cols * model->rows * sizeof(float));
 	if (!model->height)
 		return ;
-	model->vertex = (t_vec4 *)malloc(model->cols * model->rows * sizeof(t_vec4));
+	model->vertex = (t_vec4 *)malloc(model->cols * model->rows
+			* sizeof(t_vec4));
 	if (!model->vertex)
 		return ((void)free(model->height));
 	model->color = (int *)malloc(model->cols * model->rows * sizeof(int));
@@ -66,7 +79,7 @@ static void	parse_map(t_model *model, t_list *line_list)
 		while (split[i_s])
 		{
 			model->height[i_h] = ft_strtoll(split[i_s++], &endptr, NULL);
-			if (*endptr)
+			if (*endptr == ',')
 				model->color[i_h++] = ft_strtoll(endptr + 1, NULL, NULL);
 			else
 				model->color[i_h++] = COLOR_WHITE;
@@ -77,7 +90,7 @@ static void	parse_map(t_model *model, t_list *line_list)
 }
 
 //should become "normalise"
-static void get_extremum_height(t_model	*model)
+static void	get_extremum_height(t_model	*model)
 {
 	int	i;
 
