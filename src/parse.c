@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:47:20 by parden            #+#    #+#             */
-/*   Updated: 2024/10/01 20:53:54 by parden           ###   ########.fr       */
+/*   Updated: 2024/10/12 19:46:48 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,10 @@ static void	get_extremum_height(t_model	*model)
 	}
 }
 
-void	parse_fdf(t_model *model, char *path)
+void	parse_fdf(t_model *model, int fd)
 {
-	int		fd;
 	t_list	*line_list;
 
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		return ;
 	line_list = list_lines(fd);
 	close(fd);
 	if (!line_list)

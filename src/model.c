@@ -6,43 +6,11 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:47:20 by parden            #+#    #+#             */
-/*   Updated: 2024/10/01 20:50:49 by parden           ###   ########.fr       */
+/*   Updated: 2024/10/12 21:22:33 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
-
-void	model_make_iso(t_model *m)
-{
-	float	angle;
-
-	angle = asin(tan(M_PI / 6));
-	m->mat_obj = mat4s_mult(mat_rot(0, angle),
-			mat_rot(2, M_PI / 4));
-	m->mat_cam = mat4s_mult(mat_trans(1, WIN_HEIGHT / 2.f),
-			mat_trans(0, WIN_WIDTH / 2.f));
-	m->mat_cam = mat4s_mult(mat_trans(2, -2 * m->hmax),
-			m->mat_cam);
-}
-
-void	model_make_topdown(t_model *m)
-{
-	m->mat_obj = mat_id();
-	m->mat_cam = mat4s_mult(mat_trans(1, WIN_HEIGHT / 2.f),
-			mat_trans(0, WIN_WIDTH / 2.f));
-	m->mat_cam = mat4s_mult(mat_trans(2, -2 * m->hmax),
-			m->mat_cam);
-}
-
-void	model_make_side(t_model *m)
-{
-	m->mat_obj = mat_rot(0, M_PI / 2);
-	m->mat_cam = mat4s_mult(mat_trans(1, WIN_HEIGHT / 2.f),
-			mat_trans(0, WIN_WIDTH / 2.f));
-	m->mat_cam = mat4s_mult(mat_trans(2, -2 * m->hmax),
-			m->mat_cam);
-}
 
 void	model_vertex_shader(t_model *m)
 {
@@ -69,9 +37,9 @@ void	model_vertex_shader(t_model *m)
 	}
 }
 
-void	model_init(t_model *model, char *path)
+void	model_init(t_model *model, int fd)
 {
-	parse_fdf(model, path);
+	parse_fdf(model, fd);
 	if (!model->color)
 		return ;
 	model_make_iso(model);
