@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:47:20 by parden            #+#    #+#             */
-/*   Updated: 2024/10/12 21:22:35 by parden           ###   ########.fr       */
+/*   Updated: 2024/10/14 20:52:31 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	model_make_iso(t_model *m)
 	float	angle;
 	float	scale;
 
-	scale = WIN_WIDTH / (m->cols * 2.f);
+	scale = WIN_WIDTH / (m->cols * 4.f);
 	angle = asin(tan(M_PI / 6));
 	m->mat_obj = mat4s_mult(mat_rot(2, M_PI / 4), mat_scale(scale));
 	m->mat_obj = mat4s_mult(mat_rot(0, angle), m->mat_obj);
@@ -31,7 +31,7 @@ void	model_make_topdown(t_model *m)
 {
 	float	scale;
 
-	scale = WIN_WIDTH / (m->cols * 2.f);
+	scale = WIN_WIDTH / (m->cols * 4.f);
 	m->mat_obj = mat_scale(scale);
 	m->mat_cam = mat4s_mult(mat_trans(1, WIN_HEIGHT / 2.f),
 			mat_trans(0, WIN_WIDTH / 2.f));
@@ -43,7 +43,7 @@ void	model_make_side(t_model *m)
 {
 	float	scale;
 
-	scale = WIN_WIDTH / (m->cols * 2.f);
+	scale = WIN_WIDTH / (m->cols * 4.f);
 	m->mat_obj = mat4s_mult(mat_rot(0, M_PI / 2), mat_scale(scale));
 	m->mat_cam = mat4s_mult(mat_trans(1, WIN_HEIGHT / 2.f),
 			mat_trans(0, WIN_WIDTH / 2.f));

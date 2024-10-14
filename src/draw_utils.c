@@ -6,7 +6,7 @@
 /*   By: parden <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 20:04:45 by parden            #+#    #+#             */
-/*   Updated: 2024/10/12 20:21:14 by parden           ###   ########.fr       */
+/*   Updated: 2024/10/14 20:54:46 by parden           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	color_mid(int c1, int c2, float b)
 	int	res;
 
 	res = (int)((c1 & 0xff) * (1 - b) + (c2 & 0xff) * b);
-	res |= (int)((c1 & 0xff00) * (1 - b) + (c2 & 0xff00) * b);
-	res |= (int)((c1 & 0xff0000) * (1 - b) + (c2 & 0xff0000) * b);
+	res |= 0xff00 & (int)((c1 & 0xff00) * (1 - b) + (c2 & 0xff00) * b);
+	res |= 0xff0000 & (int)((c1 & 0xff0000) * (1 - b) + (c2 & 0xff0000) * b);
 	return (res);
 }
 
